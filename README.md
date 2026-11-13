@@ -52,7 +52,7 @@
 3. *(NVIDIA GPU users only)* Install the CUDA build of PyTorch first using the command from [pytorch.org](https://pytorch.org/get-started/locally/) (for example, `pip install torch --index-url https://download.pytorch.org/whl/cu124`). Skip this step if you only use a CPU. You can verify GPU support afterward with:
 
 ```bash
-   python -c "import torch; print(torch.cuda.is\_available())"
+   python -c "import torch; print(torch.cuda.is_available())"
    ```
 
 4. Install dependencies:
@@ -64,10 +64,10 @@
 5. Start the server and open [**http://127.0.0.1:8765**](http://127.0.0.1:8765) in your browser:
 
 ```bash
-   python timestral\_studio\_server.py
+   python timestral_studio_server.py
    ```
 
-*(On Windows, `py -3 timestral\_studio\_server.py` works as well.)*
+*(On Windows, `py -3 timestral_studio_server.py` works as well.)*
 
 ### How to use
 
@@ -129,8 +129,8 @@ Model error is benchmarked against up to two non-AI baselines:
 
 |Setting|How to change|
 |-|-|
-|Model cache directory|Set the `TIMESTRAL\_CACHE` environment variable (defaults to Hugging Face's standard `\~/.cache/huggingface/hub`).|
-|Host and port|Edit `HOST` and `PORT` at the top of `timestral\_studio\_server.py` (default `127.0.0.1:8765`).|
+|Model cache directory|Set the `TIMESTRAL_CACHE` environment variable (defaults to Hugging Face's standard `~/.cache/huggingface/hub`).|
+|Host and port|Edit `HOST` and `PORT` at the top of `timestral_studio_server.py` (default `127.0.0.1:8765`).|
 
 **Privacy:** The server binds strictly to `127.0.0.1`. Your datasets never leave your machine. Network requests occur only to download model weights from Hugging Face and—when opening `.xlsx`/`.xls` files—to load SheetJS from `cdnjs`. CSV/TSV files work completely offline once a model is cached.
 
@@ -202,7 +202,7 @@ The source code of **Timestral Studio** is licensed under the [PolyForm Noncomme
 3. *(Только для видеокарт NVIDIA)* Сначала установите сборку PyTorch с поддержкой CUDA по команде с сайта [pytorch.org](https://pytorch.org/get-started/locally/) (например: `pip install torch --index-url https://download.pytorch.org/whl/cu124`). Если считаете на процессоре, пропустите этот шаг. Проверить доступность GPU можно командой:
 
 ```bash
-   python -c "import torch; print(torch.cuda.is\_available())"
+   python -c "import torch; print(torch.cuda.is_available())"
    ```
 
 4. Установите зависимости:
@@ -214,10 +214,10 @@ The source code of **Timestral Studio** is licensed under the [PolyForm Noncomme
 5. Запустите сервер и откройте [**http://127.0.0.1:8765**](http://127.0.0.1:8765) в браузере:
 
 ```bash
-   python timestral\_studio\_server.py
+   python timestral_studio_server.py
    ```
 
-*(На Windows также работает запуск через `py -3 timestral\_studio\_server.py`.)*
+*(На Windows также работает запуск через `py -3 timestral_studio_server.py`.)*
 
 ### Как пользоваться
 
@@ -279,8 +279,8 @@ date,category,sales
 
 |Параметр|Как изменить|
 |-|-|
-|Папка кеша моделей|Переменная окружения `TIMESTRAL\_CACHE` (по умолчанию используется стандартный кеш Hugging Face `\~/.cache/huggingface/hub`).|
-|Хост и порт сервера|Константы `HOST` и `PORT` в начале `timestral\_studio\_server.py` (по умолчанию `127.0.0.1:8765`).|
+|Папка кеша моделей|Переменная окружения `TIMESTRAL_CACHE` (по умолчанию используется стандартный кеш Hugging Face `~/.cache/huggingface/hub`).|
+|Хост и порт сервера|Константы `HOST` и `PORT` в начале `timestral_studio_server.py` (по умолчанию `127.0.0.1:8765`).|
 
 **Приватность:** сервер слушает только локальный адрес `127.0.0.1`, ваши таблицы никуда не отправляются. Доступ в сеть нужен только для загрузки весов моделей с Hugging Face и — при открытии файлов `.xlsx`/`.xls` — для подгрузки библиотеки SheetJS с CDN (с CSV-файлами интерфейс работает полностью офлайн).
 
