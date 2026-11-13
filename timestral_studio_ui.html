@@ -1,0 +1,1348 @@
+<style>
+#timestral-studio{--bg:#f2f4f8;--panel:#ffffff;--ink:#111b27;--mute:#5b6b79;--line:#dce2e9;--accent:#254bdb;--accent-ink:#ffffff;--soft:#e8edff;--err:#c92a2a;--err-bg:#fff5f5;--ok:#1b7f4b;--ok-bg:#ebfbee;--warn:#b45309;--warn-bg:#fffbeb;
+  font:14.5px/1.48 "Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh;padding:24px 28px;box-sizing:border-box}
+@media (prefers-color-scheme:dark){#timestral-studio{--bg:#0d131a;--panel:#16202a;--ink:#e9eef4;--mute:#8fa0b0;--line:#263442;--accent:#6889ff;--accent-ink:#09101d;--soft:#1c2947;--err:#ff8787;--err-bg:#2b1518;--ok:#51cf66;--ok-bg:#132a1c;--warn:#fcc419;--warn-bg:#2b2111}}
+#timestral-studio *{box-sizing:border-box}
+#timestral-studio [hidden]{display:none!important}
+#timestral-studio h1{font-size:25px;margin:0;letter-spacing:-.015em;display:flex;align-items:center;gap:10px}
+#timestral-studio .ts-badge{font-size:12px;font-weight:600;padding:3px 8px;border-radius:99px;background:var(--soft);color:var(--accent)}
+#timestral-studio h2{font-size:18px;margin:0}
+#timestral-studio h3{font-size:15px;margin:0 0 10px;display:flex;align-items:center;justify-content:space-between}
+#timestral-studio .ts-step-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--soft);color:var(--accent);font-size:12px;font-weight:700;margin-right:6px}
+#timestral-studio .ts-sub{color:var(--mute);font-size:12.5px;line-height:1.4}
+#timestral-studio .ts-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:22px;margin-top:20px;align-items:start}
+@media (max-width:960px){#timestral-studio .ts-grid{grid-template-columns:minmax(0,1fr)}}
+#timestral-studio .ts-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.03);min-width:0;max-width:100%}
+#timestral-studio .ts-stack{display:grid;gap:16px;min-width:0;max-width:100%}
+#timestral-studio label{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--ink);margin:12px 0 4px}
+#timestral-studio select,#timestral-studio input[type=number],#timestral-studio input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink);font:inherit;transition:border-color .15s}
+#timestral-studio select:hover,#timestral-studio input:hover{border-color:var(--mute)}
+#timestral-studio select[multiple]{height:84px;padding:4px}
+#timestral-studio select[multiple] option{padding:4px 8px;border-radius:4px;margin-bottom:2px;cursor:pointer}
+#timestral-studio :is(select,input,button):focus-visible,#timestral-studio #dropzone:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#timestral-studio #dropzone{display:block;border:1.5px dashed var(--line);border-radius:10px;padding:16px 14px;text-align:center;cursor:pointer;color:var(--mute);margin:0;transition:all .15s;background:var(--bg);word-break:break-word}
+#timestral-studio #dropzone:hover,#timestral-studio #dropzone.over{border-color:var(--accent);background:var(--soft);color:var(--ink)}
+#timestral-studio #dropzone b{color:var(--ink);display:block;margin-bottom:3px;font-size:14px}
+#timestral-studio #file-input{position:absolute;opacity:0;pointer-events:none}
+#timestral-studio .ts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#timestral-studio button{font:inherit;font-size:13.5px;border-radius:8px;padding:8px 13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;transition:all .15s;font-weight:500}
+#timestral-studio button:hover:not(:disabled){border-color:var(--mute);background:var(--bg)}
+#timestral-studio button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600;width:100%;padding:11px 14px;font-size:14px}
+#timestral-studio button.primary:hover:not(:disabled){filter:brightness(1.08)}
+#timestral-studio button.ts-btn-sm{padding:3px 9px;font-size:12px;border-radius:6px}
+#timestral-studio button:disabled{opacity:.45;cursor:not-allowed}
+#timestral-studio .ts-actions{display:grid;gap:8px;margin-top:16px}
+#timestral-studio #run-status{min-height:1.3em;margin:10px 0 0;font-size:13px;color:var(--err);font-weight:500}
+#timestral-studio .ts-passport{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;padding:9px 11px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:12px}
+#timestral-studio .ts-presets{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}
+#timestral-studio .ts-presets button{padding:2px 7px;font-size:11.5px;border-radius:5px;background:var(--bg)}
+#timestral-studio .ts-toggles-box{display:grid;gap:8px;margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+#timestral-studio .ts-help{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--line);color:var(--mute);font-size:11px;font-weight:700;cursor:help;position:relative;user-select:none;flex:none}
+#timestral-studio .ts-help:hover,#timestral-studio .ts-help:focus{background:var(--accent);color:var(--accent-ink);outline:none}
+#timestral-studio .ts-help::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:265px;padding:9px 11px;border-radius:8px;background:var(--ink);color:var(--panel);font-size:12px;font-weight:400;line-height:1.42;box-shadow:0 6px 18px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:opacity .15s;z-index:30;text-align:left;white-space:normal}
+#timestral-studio .ts-help:hover::after,#timestral-studio .ts-help:focus::after{opacity:1}
+#timestral-studio .ts-toggle{display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-size:12.5px;color:var(--ink);margin:0;user-select:none;font-weight:400}
+#timestral-studio .ts-toggle input{display:none}
+#timestral-studio .ts-toggle-track{width:32px;height:18px;background:var(--line);border-radius:99px;position:relative;transition:background .2s;flex:none}
+#timestral-studio .ts-toggle-track::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+#timestral-studio .ts-toggle input:checked + .ts-toggle-track{background:var(--accent)}
+#timestral-studio .ts-toggle input:checked + .ts-toggle-track::after{transform:translateX(14px)}
+#timestral-studio .ts-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:14px 0}
+#timestral-studio .ts-kpi-box{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 14px;display:grid;align-content:start}
+#timestral-studio .ts-kpi-box b{font-size:20px;font-variant-numeric:tabular-nums}
+#timestral-studio .ts-delta{font-size:11.5px;font-weight:600;margin-top:2px}
+#timestral-studio .ts-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+#timestral-studio .ts-head-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#timestral-studio .ts-head select{width:auto;max-width:230px;padding:6px 10px}
+#timestral-studio #results-empty{color:var(--mute);padding:42px 16px;text-align:center}
+#timestral-studio .ts-empty-steps{display:inline-grid;text-align:left;gap:8px;margin-top:12px;font-size:13.5px;background:var(--bg);padding:14px 18px;border-radius:10px;border:1px solid var(--line)}
+#timestral-studio #chart{position:relative}
+#timestral-studio #chart svg{width:100%;height:auto;display:block;overflow:visible}
+#timestral-studio .ax{stroke:var(--line);stroke-width:1}
+#timestral-studio .tx{fill:var(--mute);font-size:11px}
+#timestral-studio .val-lbl{fill:var(--ink);font-size:10.5px;font-weight:600;paint-order:stroke;stroke:var(--panel);stroke-width:3.5px;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+#timestral-studio .val-lbl.fc{fill:var(--accent)}
+#timestral-studio .ln-h{fill:none;stroke:var(--ink);stroke-width:1.8}
+#timestral-studio .ln-f{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-dasharray:5 3}
+#timestral-studio .band{fill:var(--accent);opacity:.15}
+#timestral-studio .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mute);margin:8px 0 0;padding-top:8px;border-top:1px solid var(--line)}
+#timestral-studio .chart-tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.12);z-index:10;white-space:nowrap}
+#timestral-studio .ts-preview{margin-top:18px;min-width:0;max-width:100%}
+#timestral-studio .ts-preview-title{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;font-weight:600;font-size:14px}
+#timestral-studio .ts-table{overflow:auto;max-height:340px;max-width:100%;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+#timestral-studio table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:13px}
+#timestral-studio th,#timestral-studio td{padding:7px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+#timestral-studio .ts-compact-table th,#timestral-studio .ts-compact-table td{max-width:130px;overflow:hidden;text-overflow:ellipsis;padding:5px 8px;font-size:12px}
+#timestral-studio th{position:sticky;top:0;background:var(--bg);font-weight:600;color:var(--mute);font-size:12px;z-index:1}
+#timestral-studio tr:last-child td{border-bottom:none}
+#timestral-studio .ts-link{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+#timestral-studio .ts-alert{padding:12px 15px;border-radius:9px;margin-bottom:14px;border:1px solid var(--line);font-size:13.5px}
+#timestral-studio .ts-alert-ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ink)}
+#timestral-studio .ts-alert-warn{background:var(--warn-bg);border-color:var(--warn);color:var(--ink)}
+#timestral-studio .ts-alert-err{background:var(--err-bg);border-color:var(--err);color:var(--ink)}
+#timestral-studio .bt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+#timestral-studio .bt-card{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+#timestral-studio .bt-card b{font-size:18px;display:block;margin-bottom:2px}
+#timestral-studio .bt-bars{display:grid;gap:11px;margin:12px 0;background:var(--bg);padding:14px 16px;border-radius:8px;border:1px solid var(--line)}
+#timestral-studio .bt-bar-row{display:grid;gap:4px;font-size:12.5px}
+#timestral-studio .bt-bar-track{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+#timestral-studio .bt-bar-fill{height:100%;border-radius:99px}
+#timestral-studio .pill-ok{display:inline-block;padding:2px 7px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--ok-bg);color:var(--ok)}
+#timestral-studio .pill-warn{display:inline-block;padding:2px 7px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--warn-bg);color:var(--warn)}
+#timestral-studio .live{display:flex;align-items:center;gap:10px;font-size:13.5px;padding:10px 14px;border-radius:9px;background:var(--soft);border:1px solid var(--line);position:sticky;top:8px;z-index:15}
+#timestral-studio .spin{width:14px;height:14px;border:2px solid var(--accent);border-top-color:transparent;border-radius:50%;animation:ts-spin .8s linear infinite;flex:none}
+@keyframes ts-spin{to{transform:rotate(360deg)}}
+#timestral-studio .live progress{width:140px;height:8px;margin-left:auto;accent-color:var(--accent)}
+#timestral-studio .dot-f{fill:var(--accent)}
+#timestral-studio .dot-h{fill:var(--ink)}
+#timestral-studio .ts-lang{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+#timestral-studio .ts-lang button{border:0;border-radius:0;padding:5px 11px;font-size:12px;font-weight:600;background:var(--panel);color:var(--mute)}
+#timestral-studio .ts-lang button.on,#timestral-studio .ts-lang button.on:hover:not(:disabled){background:var(--accent);color:var(--accent-ink)}
+</style>
+
+<div id="timestral-studio">
+  <div class="ts-head">
+    <div>
+      <h1>Timestral Studio <span class="ts-badge" data-t="badge">Локальный ИИ</span></h1>
+      <div class="ts-sub" data-t="sub">Прогнозирование временных рядов (продаж, спроса, метрик) прямо на вашем компьютере. Данные никуда не передаются.</div>
+    </div>
+    <div class="ts-lang" role="group" aria-label="Language / Язык"><button type="button" data-lang="ru">RU</button><button type="button" data-lang="en">EN</button></div>
+  </div>
+
+  <div class="ts-grid">
+    <div class="ts-stack">
+      <section class="ts-card">
+        <h3>
+          <span><span class="ts-step-num">1</span><span data-t="s1">Таблица с данными</span></span>
+          <button type="button" id="load-demo" class="ts-btn-sm" data-t="demoBtn" data-ttl="demoTtl">Загрузить демо-пример</button>
+        </h3>
+        <label id="dropzone" for="file-input" tabindex="0">
+          <b id="drop-title">Выберите файл или перетащите его сюда</b>
+          <span id="drop-hint">Поддерживаются таблицы CSV, TSV, TXT или Excel (.xlsx)</span>
+        </label>
+        <input id="file-input" type="file" accept=".csv,.tsv,.txt,.xlsx,.xls">
+        <div id="data-passport" class="ts-passport" hidden></div>
+        <div id="raw-preview-box" hidden style="margin-top:8px;min-width:0;max-width:100%"></div>
+      </section>
+
+      <section class="ts-card">
+        <h3><span><span class="ts-step-num">2</span><span data-t="s2">Разметка столбцов</span></span></h3>
+        <label for="time-col" style="margin-top:0">
+          <span data-t="lblTime">Столбец с датой или временем</span>
+          <span class="ts-help" tabindex="0" data-tip-k="tipTime">?</span>
+        </label>
+        <select id="time-col"></select>
+
+        <label for="target-col">
+          <span data-t="lblTarget">Что прогнозируем (Целевой показатель)</span>
+          <span class="ts-help" tabindex="0" data-tip-k="tipTarget">?</span>
+        </label>
+        <select id="target-col"></select>
+
+        <label for="id-col">
+          <span data-t="lblId">Разбить на отдельные ряды по столбцу</span>
+          <span class="ts-help" tabindex="0" data-tip-k="tipId">?</span>
+        </label>
+        <select id="id-col"><option value="" data-t="noSplit">— Не разбивать (в файле один общий ряд) —</option></select>
+
+        <label for="past-cov">
+          <span data-t="lblPast">Доп. факторы из прошлого (необязательно)</span>
+          <span class="ts-help" tabindex="0" data-tip-k="tipPast">?</span>
+        </label>
+        <select id="past-cov" multiple></select>
+
+        <label for="known-cov">
+          <span data-t="lblKnown">Факторы, известные заранее на будущее (необязательно)</span>
+          <span class="ts-help" tabindex="0" data-tip-k="tipKnown">?</span>
+        </label>
+        <select id="known-cov" multiple></select>
+        <div id="cov-hint" class="ts-sub" style="margin-top:5px" data-t="covHint">Совет: кликайте мышкой для выбора. В скобках указано, как именно модель распознала каждый столбец.</div>
+      </section>
+
+      <section class="ts-card">
+        <h3><span><span class="ts-step-num">3</span><span data-t="s3">Параметры расчёта</span></span></h3>
+        <div class="ts-row">
+          <div>
+            <label for="horizon" style="margin-top:0">
+              <span data-t="lblHor">Горизонт (шагов)</span>
+              <span class="ts-help" tabindex="0" data-tip-k="tipHor">?</span>
+            </label>
+            <input id="horizon" type="number" min="1" max="1024" value="30">
+            <div id="horizon-presets" class="ts-presets"></div>
+          </div>
+          <div>
+            <label for="device" style="margin-top:0">
+              <span data-t="lblDev">Устройство</span>
+              <span class="ts-help" tabindex="0" data-tip-k="tipDev">?</span>
+            </label>
+            <select id="device">
+              <option value="CPU" data-t="devCpu">Процессор (CPU)</option>
+              <option value="GPU (CUDA)" data-t="devGpu">Видеокарта (CUDA)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ts-row" style="margin-top:2px">
+          <div>
+            <label for="model">
+              <span data-t="lblModel">Размер модели</span>
+              <span class="ts-help" tabindex="0" data-tip-k="tipModel">?</span>
+            </label>
+            <select id="model">
+              <option value="5" data-t="m5">Timestral-5M · Быстрая</option>
+              <option value="28" data-t="m28">Timestral-28M · Баланс</option>
+              <option value="123" data-t="m123">Timestral-123M · Точная</option>
+              <option value="209" data-t="m209">Timestral-209M · Максимум</option>
+            </select>
+          </div>
+          <div>
+            <label for="interval-sel">
+              <span data-t="lblBand">Коридор вероятности</span>
+              <span class="ts-help" tabindex="0" data-tip-k="tipBand">?</span>
+            </label>
+            <select id="interval-sel">
+              <option value="50" data-t="b50">25–75% (узкий 50%)</option>
+              <option value="80" selected data-t="b80">10–90% (стандарт 80%)</option>
+              <option value="90" data-t="b90">5–95% (широкий 90%)</option>
+              <option value="98" data-t="b98">1–99% (макс. 98%)</option>
+            </select>
+          </div>
+        </div>
+        <div id="model-hint" class="ts-sub" style="margin-top:5px"></div>
+
+        <div class="ts-toggles-box">
+          <label class="ts-toggle" data-ttl="ttlCal">
+            <input type="checkbox" id="toggle-cal" checked>
+            <span class="ts-toggle-track"></span>
+            <span><span data-t="tglCal">Авто-календарь (месяц, квартал, день недели)</span> <span class="ts-help" tabindex="0" data-tip-k="tipCal">?</span></span>
+          </label>
+          <label class="ts-toggle" data-ttl="ttlMv">
+            <input type="checkbox" id="toggle-mv">
+            <span class="ts-toggle-track"></span>
+            <span><span data-t="tglMv">Совместный учёт рядов (Multivariate)</span> <span class="ts-help" tabindex="0" data-tip-k="tipMv">?</span></span>
+          </label>
+          <label class="ts-toggle" data-ttl="ttlZero">
+            <input type="checkbox" id="toggle-zero" checked>
+            <span class="ts-toggle-track"></span>
+            <span data-t="tglZero">Не уходить в минус (≥ 0)</span>
+          </label>
+        </div>
+
+        <div class="ts-actions">
+          <button id="run-forecast" class="primary" disabled>Построить прогноз</button>
+          <button id="run-backtest" disabled data-ttl="ttlBt">Проверить точность на истории</button>
+        </div>
+        <p id="run-status" role="status"></p>
+      </section>
+    </div>
+
+    <div class="ts-stack">
+      <div id="live" class="live" role="status" hidden>
+        <span class="spin"></span>
+        <span id="live-text"></span>
+        <progress id="live-bar" max="100" value="0" hidden></progress>
+      </div>
+
+      <section class="ts-card" id="main-chart-card">
+        <div id="results-empty">
+          <b style="font-size:16px;color:var(--ink);display:block;margin-bottom:4px" data-t="emptyTitle">Здесь появится график и таблица прогноза</b>
+          <div data-t="emptySub">Чтобы получить результат, выполните 3 простых шага слева:</div>
+          <div class="ts-empty-steps" id="empty-steps"></div>
+        </div>
+
+        <div id="results-content" hidden>
+          <div class="ts-head">
+            <h2 id="results-title"></h2>
+            <div class="ts-head-controls">
+              <label class="ts-toggle" data-ttl="ttlLbl">
+                <input type="checkbox" id="toggle-labels">
+                <span class="ts-toggle-track"></span>
+                <span data-t="tglLbl">Подписи</span>
+              </label>
+              <label class="ts-toggle" data-ttl="ttlZoom">
+                <input type="checkbox" id="toggle-zoom">
+                <span class="ts-toggle-track"></span>
+                <span data-t="tglZoom">Вся история</span>
+              </label>
+              <select id="chart-cat" hidden></select>
+              <button id="copy-tsv" data-ttl="ttlCopy">Скопировать для Excel</button>
+              <button id="download-csv" data-t="btnCsv" data-ttl="ttlCsv">Скачать CSV</button>
+            </div>
+          </div>
+
+          <div class="ts-kpis">
+            <div class="ts-kpi-box">
+              <b id="kpi-horizon">—</b>
+              <span class="ts-sub" data-t="kpiHor">горизонт прогноза</span>
+            </div>
+            <div class="ts-kpi-box">
+              <b id="kpi-sum">—</b>
+              <span class="ts-sub"><span data-t="kpiSum">сумма за период прогноза</span> <span class="ts-help" tabindex="0" data-tip-k="tipKpiSum">?</span></span>
+              <span id="kpi-delta" class="ts-delta"></span>
+            </div>
+            <div class="ts-kpi-box">
+              <b id="kpi-model">—</b>
+              <span class="ts-sub" data-t="kpiMod">модель (млн парам.)</span>
+            </div>
+            <div class="ts-kpi-box">
+              <b id="kpi-series">—</b>
+              <span class="ts-sub" data-t="kpiSer">независимых рядов</span>
+            </div>
+          </div>
+
+          <div id="results-card">
+            <div id="chart"></div>
+            <div class="legend">
+              <span>━ <b data-t="legHist">История</b> <span data-t="legAct">(факт)</span></span>
+              <span style="color:var(--accent)">╍ <b data-t="legFc">Прогноз</b> <span data-t="legMed">(медиана)</span></span>
+              <span>▒ <b id="legend-band-lbl">Коридор 10–90%</b> <span class="ts-help" tabindex="0" data-tip-k="tipLegBand">?</span></span>
+            </div>
+            <div id="total-table"></div>
+            <div id="detail-table"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ts-card">
+        <h3>
+          <span data-t="btHead">Проверка точности на истории (Бэктест)</span>
+          <span class="ts-help" tabindex="0" data-tip-k="tipBt">?</span>
+        </h3>
+        <div id="backtest-state"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const R = document.getElementById('timestral-studio'), $ = s => R.querySelector(s);
+  let raw = [], cols = [], lastRows = [], actualMap = null, showLabels = false, fullZoom = false, clipZero = true, curBandLbl = '10–90%';
+  let demoMode = false, fileInfo = null, lastBt = null, statusFn = null, statusColor = 'var(--err)', copyTimer = null;
+
+  let lang = (navigator.language || '').toLowerCase().startsWith('ru') ? 'ru' : 'en';
+  try {
+    const saved = localStorage.getItem('timestral-lang');
+    if (saved === 'ru' || saved === 'en') lang = saved;
+  } catch (e) {}
+
+  const tr = (ru, en) => lang === 'en' ? en : ru;
+  const LOC = () => lang === 'en' ? 'en-US' : 'ru-RU';
+  const pluralRu = (n, one, few, many) => {
+    const a = Math.abs(n), m10 = a % 10, m100 = a % 100;
+    if (m10 === 1 && m100 !== 11) return one;
+    if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+    return many;
+  };
+  const pluralEn = (n, one, many) => Math.abs(n) === 1 ? one : many;
+
+  const T = {
+    badge: ['Локальный ИИ', 'Local AI'],
+    sub: ['Прогнозирование временных рядов (продаж, спроса, метрик) прямо на вашем компьютере. Данные никуда не передаются.', 'Time-series forecasting (sales, demand, metrics) right on your computer. Your data never leaves your device.'],
+    s1: ['Таблица с данными', 'Data table'],
+    demoBtn: ['Загрузить демо-пример', 'Load demo example'],
+    demoTtl: ['Загрузить тренировочную таблицу продаж для проверки работы', 'Load a sample daily sales dataset to try the app'],
+    s2: ['Какие столбцы что значат', 'Column mapping'],
+    lblTime: ['Столбец с датой или временем', 'Date or time column'],
+    tipTime: ['Столбец с датами (например: 2025-01-15, 15.01.2025 или 01/15/2025). Пропущенные периоды автоматически выравниваются по регулярной сетке времени.', 'Column containing dates (e.g., 2025-01-15, 15.01.2025, or 01/15/2025). Missing periods are automatically aligned to a regular time grid.'],
+    lblTarget: ['Что прогнозируем (Целевой показатель)', 'Target column (what to forecast)'],
+    tipTarget: ['Главный столбец с числами, которые нужно предсказать на будущее: выручка, штуки, визиты, температура и т.д.', 'The numeric column you want to forecast: revenue, units sold, visits, temperature, etc.'],
+    lblId: ['Разбить на отдельные ряды по столбцу', 'Split into separate series by column'],
+    tipId: ['Если в одном файле смешаны данные разных товаров, категорий или магазинов (и поэтому даты повторяются), укажите этот столбец. ИИ построит прогноз для каждого ряда отдельно и сложит их в общую сумму.', 'If one file contains multiple products, categories, or stores (causing dates to repeat), select that column here. Each series will be forecast separately and summed into a total.'],
+    noSplit: ['— Не разбивать (в файле один общий ряд) —', '— Do not split (single series in file) —'],
+    lblPast: ['Доп. факторы из прошлого (необязательно)', 'Past-only factors (optional)'],
+    tipPast: ['Поддерживаются 3 типа факторов: [0/1 индикатор] — флаги акций/праздников, [число] — погода/цена, [категория] — текстовые признаки или коды.', 'Supports 3 factor types: [0/1 flag] — promo/holiday indicators, [number] — weather/price, [category] — text labels or codes.'],
+    lblKnown: ['Факторы, известные заранее на будущее (необязательно)', 'Future-known factors (optional)'],
+    tipKnown: ['Факторы, известные наперёд (например, план акций 0/1 или плановая цена). Важно: добавьте в конец файла строки с будущими датами и пустой целью. Обычный календарь включается автоматически тумблером ниже!', 'Factors known in advance (e.g., planned 0/1 promos or prices). Add future-dated rows with an empty target at the end of the file. Calendar features are added automatically by the toggle below!'],
+    covHint: ['Совет: кликайте мышкой для выбора. В скобках указано, как именно модель распознала каждый столбец.', 'Tip: click items to toggle selection. Brackets show how each column is treated by the model.'],
+    s3: ['Параметры расчёта', 'Forecast settings'],
+    lblHor: ['Горизонт (шагов)', 'Horizon (steps)'],
+    tipHor: ['На сколько шагов вперёд строить прогноз: для дневных данных — число дней, для месячных — число месяцев.', 'How many steps ahead to forecast (days for daily data, months for monthly data, etc.).'],
+    lblDev: ['Устройство', 'Device'],
+    tipDev: ['CPU — обычный процессор (работает везде). GPU (CUDA) — видеокарта NVIDIA (считает в разы быстрее, если доступна).', 'CPU works everywhere. GPU (CUDA) uses an NVIDIA GPU and runs much faster when available.'],
+    devCpu: ['Процессор (CPU)', 'CPU'],
+    devGpu: ['Видеокарта (CUDA)', 'GPU (CUDA)'],
+    lblModel: ['Размер модели', 'Model size'],
+    tipModel: ['Чем больше число M (миллионов параметров), тем точнее модель улавливает сложные зависимости, но тем дольше загружается и считает.', 'Larger models (more millions of parameters) capture more complex patterns but take longer to download and run.'],
+    m5: ['Timestral-5M · Быстрая', 'Timestral-5M · Fast'],
+    m28: ['Timestral-28M · Баланс', 'Timestral-28M · Balanced'],
+    m123: ['Timestral-123M · Точная', 'Timestral-123M · Accurate'],
+    m209: ['Timestral-209M · Максимум', 'Timestral-209M · Maximum'],
+    lblBand: ['Коридор вероятности', 'Probability range'],
+    tipBand: ['Диапазон неопределённости: 10–90% (80%) — стандарт планирования, 25–75% (50%) — узкий сценарий, 5–95% (90%) — широкий коридор для страхового запаса.', 'Uncertainty interval: 10–90% (80%) for standard planning, 25–75% (50%) for a narrow typical range, 5–95% (90%) for safety stock planning.'],
+    b50: ['25–75% (узкий 50%)', '25–75% (narrow 50%)'],
+    b80: ['10–90% (стандарт 80%)', '10–90% (standard 80%)'],
+    b90: ['5–95% (широкий 90%)', '5–95% (wide 90%)'],
+    b98: ['1–99% (макс. 98%)', '1–99% (max 98%)'],
+    ttlCal: ['Автоматически передавать модели месяц, квартал и день недели для истории и будущих дат', 'Automatically pass month, quarter, and weekday features for both history and future dates'],
+    tglCal: ['Авто-календарь (месяц, квартал, день недели)', 'Auto-calendar (month, quarter, weekday)'],
+    tipCal: ['Сама модель видит только числовой ряд без дат. Этот тумблер автоматически добавляет календарные признаки на всю историю и будущее без необходимости дописывать строки в файл.', 'The raw model only sees numbers, not dates. This toggle automatically supplies calendar features across history and future dates—no extra rows needed in your file.'],
+    ttlMv: ['Прогнозировать все категории совместно с учётом общих рыночных трендов', 'Forecast all categories jointly so the model captures shared cross-series trends'],
+    tglMv: ['Совместный учёт рядов (Multivariate)', 'Joint series modeling (Multivariate)'],
+    tipMv: ['Все категории подаются в модель одновременно за один проход, помогая улавливать общие взлёты и спады между связанными рядами.', 'Feeds all series together in a single multivariate pass so the model can pick up shared ups and downs across related categories.'],
+    ttlZero: ['Ограничить прогноз и нижнюю границу коридора нулём (полезно для продаж и спроса)', 'Clamp the forecast and lower bound at zero (recommended for sales, demand, and counts)'],
+    tglZero: ['Не уходить в минус (≥ 0)', 'Clip at zero (≥ 0)'],
+    ttlBt: ['Скрыть конец известных данных и проверить точность прогноза на реальном факте', 'Hide the end of historical data and test forecast accuracy against actuals'],
+    emptyTitle: ['Здесь появится график и таблица прогноза', 'Your forecast chart and tables will appear here'],
+    emptySub: ['Чтобы получить результат, выполните 3 простых шага слева:', 'Follow 3 quick steps on the left to build a forecast:'],
+    ttlLbl: ['Показать или скрыть числовые значения над точками графика', 'Show or hide numeric labels on the chart'],
+    tglLbl: ['Подписи', 'Labels'],
+    ttlZoom: ['Показать всю доступную историю с начала файла', 'Show the full historical series from the beginning of the file'],
+    tglZoom: ['Вся история', 'Full history'],
+    ttlCopy: ['Скопировать таблицу в буфер обмена для вставки (Ctrl+V) прямо в Excel', 'Copy forecast table to clipboard for direct paste (Ctrl+V) into Excel'],
+    btnCsv: ['Скачать CSV', 'Download CSV'],
+    ttlCsv: ['Сохранить результаты прогноза в файл CSV', 'Download forecast results as a CSV file'],
+    kpiHor: ['горизонт прогноза', 'forecast horizon'],
+    kpiSum: ['сумма за период прогноза', 'total over forecast horizon'],
+    tipKpiSum: ['Суммарный объём за прогнозируемый период по выбранному ряду и сравнение с таким же числом последних шагов реальной истории.', 'Total forecast volume over the horizon for the selected series, compared against the same number of immediately preceding historical steps.'],
+    kpiMod: ['модель (млн парам.)', 'model (M params)'],
+    kpiSer: ['независимых рядов', 'independent series'],
+    legHist: ['История', 'History'],
+    legAct: ['(факт)', '(actual)'],
+    legFc: ['Прогноз', 'Forecast'],
+    legMed: ['(медиана)', '(median)'],
+    tipLegBand: ['Диапазон вероятности вокруг медианы: нижняя граница — пессимистичный сценарий, верхняя — оптимистичный.', 'Probability interval around the median: lower bound = conservative scenario, upper bound = optimistic scenario.'],
+    btHead: ['Проверка точности на истории (Бэктест)', 'Accuracy check on history (Backtest)'],
+    tipBt: ['Приложение временно скрывает конец вашей таблицы, строит ретроспективный прогноз и сравнивает его с реальными данными и простыми базовыми формулами.', 'Temporarily hides the most recent periods of your series, forecasts them, and compares the error against actuals and simple baseline rules.'],
+  };
+
+  const setStatus = (color, fn) => { statusFn = fn; statusColor = color; const el = $('#run-status'); el.style.color = color; el.textContent = fn ? fn() : ''; };
+  const DEMO_MAP_RU_EN = { 'Дата': 'Date', 'Категория': 'Category', 'Продажи_шт': 'Sales_units', 'Промо_акция': 'Promo', 'Температура': 'Temperature', 'Напитки': 'Drinks', 'Выпечка': 'Bakery' };
+  const DEMO_MAP_EN_RU = Object.fromEntries(Object.entries(DEMO_MAP_RU_EN).map(([k, v]) => [v, k]));
+
+  const catLabel = c => {
+    if (c === 'Общий ряд') return tr('Общий ряд', 'Single series');
+    if (c === 'Все категории') return tr('Все категории', 'All categories');
+    if (demoMode) return lang === 'en' ? (DEMO_MAP_RU_EN[c] || c) : (DEMO_MAP_EN_RU[c] || c);
+    return c;
+  };
+  const KIND_EN = { 'пусто': 'empty', 'категория-календарь': 'calendar category', '0/1 индикатор': '0/1 flag', 'число': 'number', 'категория': 'category' };
+  const kindLabel = k => lang === 'en' ? (KIND_EN[k] || k) : k;
+  const baselineName = n => lang !== 'en' ? n : /сезон/i.test(n) ? 'Seasonal forecast (“same as previous season”)' : /прошл.*точк|простой|прошл.*период/i.test(n) ? 'Simple forecast (“same as previous point”)' : n;
+
+  const renderDropText = () => {
+    if (fileInfo) {
+      const rCnt = raw.length, cCnt = cols.length;
+      $('#drop-title').textContent = tr(`Файл загружен: ${fileInfo.name}`, `File loaded: ${fileInfo.name}`);
+      $('#drop-hint').textContent = lang === 'en'
+        ? `${rCnt.toLocaleString(LOC())} ${pluralEn(rCnt, 'row', 'rows')} · ${cCnt} ${pluralEn(cCnt, 'column', 'columns')} (click to choose another)`
+        : `${rCnt.toLocaleString(LOC())} ${pluralRu(rCnt, 'строка', 'строки', 'строк')} · ${cCnt} ${pluralRu(cCnt, 'столбец', 'столбца', 'столбцов')} (нажмите, чтобы выбрать другой)`;
+    } else {
+      $('#drop-title').textContent = tr('Выберите файл или перетащите его сюда', 'Choose a file or drag it here');
+      $('#drop-hint').textContent = tr('Поддерживаются таблицы CSV, TSV, TXT или Excel (.xlsx)', 'Supported: CSV, TSV, TXT, or Excel (.xlsx) tables');
+    }
+  };
+
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const num = v => Number(String(v).replace(/[\s\u00a0]/g, '').replace(',', '.'));
+  const isNum = v => v !== '' && isFinite(num(v));
+  const cal = /^(год|месяц|день|квартал|недел[яи]|день_недели|year|month|day|week|quarter|dayofweek)$/i;
+  const calLoose = /год|месяц|день|квартал|недел|year|month|day|week|quarter|id|код/i;
+  const pad = n => String(n).padStart(2, '0');
+
+  const RE_YMD = /^(\d{4})[-/.](\d{1,2})(?:[-/.](\d{1,2}))?(?:[ T](\d{1,2}:\d{2}(?::\d{2})?))?$/;
+  const RE_DMY_DOT = /^(\d{1,2})\.(\d{1,2})\.(\d{4})(?:[ T](\d{1,2}:\d{2}(?::\d{2})?))?$/;
+  const RE_SLASH_DASH = /^(\d{1,2})([/-])(\d{1,2})\2(\d{4})(?:[ T](\d{1,2}:\d{2}(?::\d{2})?))?$/;
+  const isDate = v => { const s = String(v ?? '').trim(); return RE_YMD.test(s) || RE_DMY_DOT.test(s) || RE_SLASH_DASH.test(s); };
+
+  function detectDayFirst(colIdx) {
+    let aGt12 = false, bGt12 = false;
+    for (let r = 0; r < raw.length; r++) {
+      const m = RE_SLASH_DASH.exec(String(raw[r][colIdx] ?? '').trim());
+      if (!m) continue;
+      if (Number(m[1]) > 12) aGt12 = true;
+      if (Number(m[3]) > 12) bGt12 = true;
+    }
+    return aGt12 && !bGt12;
+  }
+
+  function makeNormDate(colIdx) {
+    const dayFirst = colIdx >= 0 ? detectDayFirst(colIdx) : false;
+    return v => {
+      const s = String(v ?? '').trim();
+      if (!s) return '';
+      let m = RE_YMD.exec(s);
+      if (m) return `${m[1]}-${pad(m[2])}-${pad(m[3] || 1)}${m[4] ? 'T' + m[4] : ''}`;
+      m = RE_DMY_DOT.exec(s);
+      if (m) return `${m[3]}-${pad(m[2])}-${pad(m[1])}${m[4] ? 'T' + m[4] : ''}`;
+      m = RE_SLASH_DASH.exec(s);
+      if (m) {
+        const d = dayFirst ? m[1] : m[3], mo = dayFirst ? m[3] : m[1];
+        return `${m[4]}-${pad(mo)}-${pad(d)}${m[5] ? 'T' + m[5] : ''}`;
+      }
+      return s;
+    };
+  }
+
+  const ts = s => {
+    s = String(s ?? '').trim().replace(' ', 'T');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) s += 'T00:00:00';
+    else if (/^\d{4}-\d{2}-\d{2}T\d{1,2}:\d{2}(?::\d{2})?$/.test(s)) {
+      const [dp, tp] = s.split('T'), p = tp.split(':');
+      s = `${dp}T${pad(p[0])}:${p[1]}${p[2] ? ':' + p[2] : ':00'}`;
+    }
+    return Date.parse(s);
+  };
+  const share = (i, fn) => {
+    const v = raw.map(r => r[i]).filter(x => x !== '').slice(0, 200);
+    return v.length > 0 && v.filter(fn).length / v.length >= 0.9;
+  };
+  const cz = v => clipZero ? Math.max(0, v) : v;
+
+  ['#past-cov', '#known-cov'].forEach(sel => {
+    $(sel).addEventListener('mousedown', e => {
+      if (e.target.tagName === 'OPTION') { e.preventDefault(); e.target.selected = !e.target.selected; $(sel).focus(); }
+    });
+  });
+
+  function parseCSV(text) {
+    text = text.replace(/^\uFEFF/, '');
+    const first = text.split(/\r?\n/, 1)[0];
+    const d = [';', '\t', ','].map(c => [c, first.split(c).length]).sort((a, b) => b[1] - a[1])[0][0];
+    const out = []; let row = [], cell = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+      else if (c === '"') q = true;
+      else if (c === d) { row.push(cell); cell = ''; }
+      else if (c === '\n') { row.push(cell); out.push(row); row = []; cell = ''; }
+      else if (c !== '\r') cell += c;
+    }
+    row.push(cell); out.push(row);
+    return out;
+  }
+
+  function loadSheetJS() {
+    if (window.XLSX) return Promise.resolve();
+    return new Promise((ok, fail) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      s.onload = ok; s.onerror = () => fail(new Error(tr('Для чтения Excel (.xlsx) нужен интернет для подгрузки модуля. Или сохраните файл как CSV.', 'Reading Excel (.xlsx) requires an internet connection to load the parser, or save the file as CSV.')));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function readFile(file) {
+    if (/\.xlsx?$/i.test(file.name)) {
+      await loadSheetJS();
+      const wb = XLSX.read(await file.arrayBuffer(), { cellDates: true });
+      const m = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: true, defval: '' });
+      return m.map(r => r.map(v => {
+        if (v instanceof Date) {
+          const t = v.getHours() || v.getMinutes() ? `T${pad(v.getHours())}:${pad(v.getMinutes())}` : '';
+          return `${v.getFullYear()}-${pad(v.getMonth() + 1)}-${pad(v.getDate())}${t}`;
+        }
+        return v;
+      }));
+    }
+    return parseCSV(await file.text());
+  }
+
+  function fillSelect(sel, items, keep) {
+    const prev = new Set([...sel.selectedOptions].map(o => o.value));
+    [...sel.querySelectorAll('option')].filter(o => o.value !== '').forEach(o => o.remove());
+    items.forEach(item => {
+      const val = typeof item === 'string' ? item : item.value, lbl = typeof item === 'string' ? item : item.label;
+      const o = new Option(lbl, val);
+      o.selected = keep && prev.has(val);
+      sel.add(o);
+    });
+  }
+
+  function classifyCovariate(colName, colIdx) {
+    const vals = raw.map(r => r[colIdx]).filter(x => x !== '').slice(0, 300);
+    if (!vals.length) return 'пусто';
+    if (cal.test(colName.trim())) return 'категория-календарь';
+    if (share(colIdx, isNum)) return vals.map(num).every(v => v === 0 || v === 1) ? '0/1 индикатор' : 'число';
+    return 'категория';
+  }
+
+  function autoDetectZeroClip() {
+    const yi = cols.indexOf($('#target-col').value);
+    if (yi < 0) return;
+    const vals = raw.map(r => num(r[yi])).filter(isFinite);
+    $('#toggle-zero').checked = clipZero = !vals.some(v => v < 0);
+  }
+
+  function updatePassportAndPresets() {
+    const ti = cols.indexOf($('#time-col').value), yi = cols.indexOf($('#target-col').value), ii = cols.indexOf($('#id-col').value);
+    if (ti < 0 || yi < 0) return;
+    const normD = makeNormDate(ti);
+    const dates = [...new Set(raw.map(r => ts(normD(r[ti]))).filter(isFinite))].sort((a, b) => a - b);
+
+    let stepDays = 1;
+    if (dates.length >= 2) {
+      const diffs = [];
+      for (let i = 1; i < Math.min(dates.length, 60); i++) diffs.push((dates[i] - dates[i - 1]) / 86400000);
+      diffs.sort((a, b) => a - b);
+      stepDays = diffs[Math.floor(diffs.length / 2)] || 1;
+    }
+    let freqName = tr('По дням', 'Daily'), presets = [[7, tr('7 дн', '7 d')], [14, tr('14 дн', '14 d')], [30, tr('30 дн', '30 d')], [90, tr('90 дн', '90 d')]];
+    if (stepDays >= 27 && stepDays <= 32) { freqName = tr('По месяцам', 'Monthly'); presets = [[3, tr('3 мес', '3 mo')], [6, tr('6 мес', '6 mo')], [12, tr('12 мес', '12 mo')], [24, tr('24 мес', '24 mo')]]; }
+    else if (stepDays >= 6 && stepDays <= 8) { freqName = tr('По неделям', 'Weekly'); presets = [[4, tr('4 нед', '4 wk')], [8, tr('8 нед', '8 wk')], [12, tr('12 нед', '12 wk')], [26, tr('26 нед', '26 wk')]]; }
+    else if (stepDays >= 88 && stepDays <= 93) { freqName = tr('По кварталам', 'Quarterly'); presets = [[2, tr('2 кв', '2 qtr')], [4, tr('4 кв', '4 qtr')], [8, tr('8 кв', '8 qtr')]]; }
+
+    $('#horizon-presets').innerHTML = presets.map(([v, lbl]) => `<button type="button" data-h="${v}">${lbl}</button>`).join('');
+    $('#horizon-presets').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { $('#horizon').value = b.dataset.h; }));
+
+    const counts = new Map();
+    raw.forEach(r => {
+      if (!isFinite(num(r[yi]))) return;
+      const k = ii >= 0 ? r[ii] : 'Общий ряд';
+      counts.set(k, (counts.get(k) || 0) + 1);
+    });
+    const shortCnt = [...counts.values()].filter(c => c < 8).length;
+    const dWord = lang === 'en' ? pluralEn(dates.length, 'date', 'dates') : pluralRu(dates.length, 'дата', 'даты', 'дат');
+    const pBox = $('#data-passport');
+    pBox.hidden = false;
+    pBox.innerHTML =
+      `<div><span class="ts-sub">${tr('Шаг времени:', 'Time step:')}</span> <b>${freqName}</b></div>` +
+      `<div><span class="ts-sub">${tr('Категорий (рядов):', 'Categories (series):')}</span> <b>${counts.size}</b></div>` +
+      `<div style="grid-column:1/-1"><span class="ts-sub">${tr('Период:', 'Period:')}</span> <b>${dates.length ? fdate(dates[0]) + ' — ' + fdate(dates[dates.length - 1]) : '—'}</b> (${dates.length} ${dWord})</div>` +
+      (shortCnt ? `<div style="grid-column:1/-1;color:var(--warn)">⚠ ${tr('Коротких рядов (&lt;8 точек):', 'Short series (&lt;8 points):')} <b>${shortCnt}</b></div>` : '');
+  }
+
+  function refreshCovs() {
+    const skip = new Set([$('#time-col').value, $('#target-col').value, $('#id-col').value]);
+    const items = [];
+    cols.forEach((c, i) => {
+      if (skip.has(c) || /^год|year$/i.test(c.trim())) return;
+      const kind = classifyCovariate(c, i);
+      if (kind !== 'пусто') items.push({ value: c, label: `${c} [${kindLabel(kind)}]` });
+    });
+    fillSelect($('#past-cov'), items, true);
+    fillSelect($('#known-cov'), items, true);
+    updatePassportAndPresets();
+  }
+
+  function applyTime() {
+    const ti = cols.indexOf($('#time-col').value), normD = makeNormDate(ti);
+    window.timestralUploaded = {
+      columns: cols,
+      rows: raw.map(r => { const c = r.slice(); if (ti >= 0) c[ti] = normD(c[ti]); return c; }),
+    };
+  }
+
+  function renderRawPreview() {
+    const box = $('#raw-preview-box');
+    const head = cols.map(c => `<th title="${esc(c)}">${esc(c)}</th>`).join('');
+    const body = raw.slice(0, 5).map(r => `<tr>${cols.map((_, i) => `<td title="${esc(r[i])}">${esc(r[i])}</td>`).join('')}</tr>`).join('');
+    box.hidden = false;
+    box.innerHTML = `<details><summary class="ts-sub" style="cursor:pointer;font-weight:600;color:var(--accent)">${tr('Показать первые 5 строк файла (проверка столбцов)', 'Show first 5 rows (column preview)')}</summary><div class="ts-table ts-compact-table" style="margin-top:6px;max-height:175px"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div></details>`;
+  }
+
+  function setData(matrix, name) {
+    const seen = {};
+    cols = matrix[0].map((h, i) => {
+      let n = String(h ?? '').trim() || `${tr('Столбец', 'Column')} ${i + 1}`;
+      if (seen[n]) n += ` (${++seen[n]})`; else seen[n] = 1;
+      return n;
+    });
+    raw = matrix.slice(1)
+      .map(r => cols.map((_, i) => (r[i] == null ? '' : String(r[i]).trim())))
+      .filter(r => r.some(v => v !== ''));
+    if (raw.length < 2) throw new Error(tr('В файле слишком мало строк с данными.', 'The file has too few data rows.'));
+    const ti = Math.max(0, cols.findIndex((_, i) => share(i, isDate)));
+    const distinct = i => new Set(raw.map(r => r[i])).size;
+    let gi = -1, best = 0;
+    cols.forEach((c, i) => { if (i !== ti && share(i, isNum) && !calLoose.test(c) && distinct(i) > best) { best = distinct(i); gi = i; } });
+    if (gi < 0) gi = cols.findIndex((_, i) => i !== ti && share(i, isNum));
+    ['#time-col', '#target-col'].forEach(s => { $(s).innerHTML = ''; cols.forEach(c => $(s).add(new Option(c, c))); });
+    fillSelect($('#id-col'), cols, false);
+    $('#time-col').value = cols[ti];
+    $('#target-col').value = cols[gi >= 0 ? gi : (ti === 0 ? Math.min(1, cols.length - 1) : 0)];
+    $('#id-col').value = '';
+    let noteFn = null, noteColor = 'var(--err)';
+    const normD = makeNormDate(ti), tvals = raw.map(r => normD(r[ti]));
+    if (new Set(tvals).size < raw.length) {
+      const ci = cols.findIndex((c, i) => i !== ti && c !== $('#target-col').value && !share(i, isNum) &&
+        new Set(raw.map((r, k) => r[i] + '|' + tvals[k])).size === raw.length);
+      if (ci >= 0) {
+        $('#id-col').value = cols[ci];
+        noteFn = () => { const cn = $('#id-col').value || cols[ci]; return tr(`Подсказка: так как даты повторяются, мы автоматически разделили ряды по столбцу «${cn}».`, `Tip: duplicate dates detected, so series were automatically split by “${cn}”.`); };
+        noteColor = 'var(--ok)';
+      } else {
+        noteFn = () => tr('Внимание: в файле есть одинаковые даты! Обязательно выберите столбец в поле «Разбить на отдельные ряды».', 'Warning: duplicate dates found! Select a category column in “Split into separate series by column”.');
+      }
+    }
+    autoDetectZeroClip();
+    refreshCovs(); applyTime(); renderRawPreview();
+    fileInfo = { name };
+    renderDropText();
+    $('#run-forecast').disabled = $('#run-backtest').disabled = false;
+    setStatus(noteColor, noteFn);
+  }
+
+  async function onFile(file) {
+    if (!file) return;
+    demoMode = false;
+    try { setData(await readFile(file), file.name); }
+    catch (e) { const m = e.message; setStatus('var(--err)', () => m || tr('Не удалось прочитать файл.', 'Could not read the file.')); }
+  }
+
+  function translateDemoInPlace() {
+    if (!demoMode || !cols.length) return;
+    const map = lang === 'en' ? DEMO_MAP_RU_EN : DEMO_MAP_EN_RU;
+    const trTok = s => map[s] || s;
+    const tIdx = cols.indexOf($('#time-col').value), yIdx = cols.indexOf($('#target-col').value), idIdx = cols.indexOf($('#id-col').value);
+    const pastIdx = [...$('#past-cov').selectedOptions].map(o => cols.indexOf(o.value)).filter(i => i >= 0);
+    const knownIdx = [...$('#known-cov').selectedOptions].map(o => cols.indexOf(o.value)).filter(i => i >= 0);
+    cols = cols.map(trTok);
+    raw = raw.map(r => r.map(trTok));
+    fileInfo = { name: tr('Демо_продажи_по_дням.csv', 'Demo_daily_sales.csv') };
+    ['#time-col', '#target-col'].forEach(s => { $(s).innerHTML = ''; cols.forEach(c => $(s).add(new Option(c, c))); });
+    fillSelect($('#id-col'), cols, false);
+    if (tIdx >= 0) $('#time-col').value = cols[tIdx];
+    if (yIdx >= 0) $('#target-col').value = cols[yIdx];
+    $('#id-col').value = idIdx >= 0 ? cols[idIdx] : '';
+    refreshCovs();
+    [...$('#past-cov').options].forEach(o => { o.selected = pastIdx.includes(cols.indexOf(o.value)); });
+    [...$('#known-cov').options].forEach(o => { o.selected = knownIdx.includes(cols.indexOf(o.value)); });
+    applyTime();
+    actualMap = null;
+  }
+
+  $('#load-demo').addEventListener('click', () => {
+    demoMode = true;
+    const demo = [[tr('Дата', 'Date'), tr('Категория', 'Category'), tr('Продажи_шт', 'Sales_units'), tr('Промо_акция', 'Promo'), tr('Температура', 'Temperature')]];
+    const start = new Date('2024-01-01T00:00:00');
+    for (let d = 0; d < 90; d++) {
+      const dt = new Date(start.getTime() + d * 86400000);
+      const ds = `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
+      const dow = dt.getDay(), wknd = (dow === 0 || dow === 6) ? 35 : 0, promo = (d % 14 === 0 || d % 14 === 1) ? 1 : 0;
+      const temp = Math.round(15 + 10 * Math.sin(d / 14));
+      const v1 = Math.round(120 + d * 0.6 + wknd + promo * 40 + 18 * Math.sin((d * 2 * Math.PI) / 7) + (d % 5) * 3);
+      const v2 = Math.round(80 + d * 0.25 + (wknd ? 15 : 0) + promo * 25 + 12 * Math.cos((d * 2 * Math.PI) / 7) + (d % 3) * 4);
+      demo.push([ds, tr('Напитки', 'Drinks'), String(v1), String(promo), String(temp)]);
+      demo.push([ds, tr('Выпечка', 'Bakery'), String(v2), String(promo), String(temp)]);
+    }
+    $('#horizon').value = '14';
+    setData(demo, tr('Демо_продажи_по_дням.csv', 'Demo_daily_sales.csv'));
+  });
+
+  const drop = $('#dropzone');
+  $('#file-input').addEventListener('change', e => { onFile(e.target.files[0]); e.target.value = ''; });
+  drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#file-input').click(); } });
+  ['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', e => onFile(e.dataTransfer.files[0]));
+  $('#time-col').addEventListener('change', () => { refreshCovs(); applyTime(); });
+  $('#target-col').addEventListener('change', () => {
+    autoDetectZeroClip();
+    refreshCovs();
+    const i = cols.indexOf($('#target-col').value);
+    setStatus('var(--warn)', (calLoose.test(cols[i]) || new Set(raw.map(r => r[i])).size < 3)
+      ? () => tr('Похоже, выбран календарный или служебный столбец, а не целевой показатель. Проверьте выбор.', 'This looks like a calendar or ID column rather than a target metric. Please check your selection.') : null);
+  });
+  $('#id-col').addEventListener('change', refreshCovs);
+
+  $('#run-forecast').addEventListener('click', () => setStatus('var(--err)', null));
+  $('#run-backtest').addEventListener('click', () => { lastBt = null; });
+  window.clearBacktest = () => { lastBt = null; };
+
+  $('#toggle-labels').addEventListener('change', e => { showLabels = e.target.checked; if (lastRows.length) draw($('#chart-cat').value || TOTAL); });
+  $('#toggle-zoom').addEventListener('change', e => { fullZoom = e.target.checked; if (lastRows.length) draw($('#chart-cat').value || TOTAL); });
+  $('#toggle-zero').addEventListener('change', e => {
+    clipZero = e.target.checked;
+    if (lastRows.length) {
+      const cats = [...new Set(lastRows.map(r => r.category))];
+      renderTotal(cats.length);
+      draw($('#chart-cat').value || cats[0]);
+    }
+  });
+
+  const TOTAL = '__total__';
+  const matchCat = (rowCat, targetCat) => rowCat === targetCat || (demoMode && catLabel(rowCat) === catLabel(targetCat));
+  const actuals = () => {
+    if (actualMap) return actualMap;
+    actualMap = new Map();
+    const u = window.timestralUploaded, ii = u.columns.indexOf($('#id-col').value);
+    const ti = u.columns.indexOf($('#time-col').value), yi = u.columns.indexOf($('#target-col').value);
+    u.rows.forEach(r => {
+      if (r[yi] === '' || !isFinite(num(r[yi]))) return;
+      const c = ii < 0 ? 'Общий ряд' : String(r[ii]);
+      if (!actualMap.has(c)) actualMap.set(c, new Map());
+      const m = actualMap.get(c), t = ts(r[ti]);
+      m.set(t, (m.get(t) || 0) + num(r[yi]));
+    });
+    return actualMap;
+  };
+
+  const totalRows = () => {
+    const cats = [...new Set(lastRows.map(r => r.category))], fc = new Map(), act = actuals(), out = [];
+    lastRows.forEach(r => {
+      const t = ts(r.date);
+      if (!fc.has(t)) fc.set(t, { date: r.date, by: new Map() });
+      fc.get(t).by.set(r.category, r);
+    });
+    [...fc.keys()].sort((x, y) => x - y).forEach(t => {
+      const e = { category: 'Все категории', date: fc.get(t).date, median: 0, p10: 0, p90: 0, fact: 0 };
+      for (const c of cats) {
+        const r = fc.get(t).by.get(c);
+        if (r) { e.median += cz(r.median); e.p10 += cz(r.p10); e.p90 += cz(r.p90); continue; }
+        const actKey = act.has(c) ? c : [...act.keys()].find(k => matchCat(k, c));
+        const v = actKey && act.get(actKey).get(t);
+        if (v === undefined) return;
+        e.median += v; e.p10 += v; e.p90 += v; e.fact++;
+      }
+      out.push(e);
+    });
+    return out;
+  };
+
+  const fmt = v => Number(v).toLocaleString(LOC(), { maximumSignificantDigits: 4 });
+  const fmtNum2 = v => Number(v).toLocaleString(LOC(), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtShort = v => {
+    const a = Math.abs(v), loc = LOC();
+    if (a >= 1e9) return (v / 1e9).toLocaleString(loc, { maximumFractionDigits: 2 }) + tr(' млрд', 'B');
+    if (a >= 1e6) return (v / 1e6).toLocaleString(loc, { maximumFractionDigits: 1 }) + tr('М', 'M');
+    if (a >= 1e4) return (v / 1e3).toLocaleString(loc, { maximumFractionDigits: 0 }) + tr('к', 'k');
+    return Number(v).toLocaleString(loc, { maximumFractionDigits: 1 });
+  };
+  const fdate = t => {
+    const d = new Date(t);
+    return lang === 'en' ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : d.toLocaleDateString('ru-RU');
+  };
+  const full0 = v => Math.round(v).toLocaleString(LOC());
+
+  function history(cat) {
+    const u = window.timestralUploaded; if (!u) return [];
+    const ti = u.columns.indexOf($('#time-col').value), yi = u.columns.indexOf($('#target-col').value);
+    const ii = $('#id-col').value ? u.columns.indexOf($('#id-col').value) : -1;
+    const pts = u.rows.filter(r => r[yi] !== '' && (ii < 0 || cat === TOTAL || matchCat(String(r[ii]), cat)))
+      .map(r => ({ t: ts(r[ti]), y: num(r[yi]) }))
+      .filter(p => isFinite(p.t) && isFinite(p.y))
+      .sort((a, b) => a.t - b.t);
+    if (cat !== TOTAL) return pts;
+    const m = new Map(); pts.forEach(p => { const e = m.get(p.t) || { y: 0, n: 0 }; e.y += p.y; e.n++; m.set(p.t, e); });
+    return [...m].map(([t, e]) => ({ t, y: e.y, n: e.n })).sort((a, b) => a.t - b.t);
+  }
+
+  function buildSmartLabels(allPts, X, Y, T, H, B, W, Rt) {
+    const placed = [], out = [];
+    const overlaps = (a, b) => Math.abs(a.x - b.x) < (a.w + b.w) / 2 + 6 && Math.abs(a.y - b.y) < 14;
+    allPts.forEach((p, i) => {
+      const text = fmtShort(p.y), w = text.length * 6.5 + 6;
+      const cx = Math.min(W - Rt - w / 2, Math.max(40, X(p.t))), baseCy = Y(p.y);
+      const candidates = (i % 2 === 0)
+        ? [Math.max(T + 11, baseCy - 9), Math.min(H - B - 6, baseCy + 16)]
+        : [Math.min(H - B - 6, baseCy + 16), Math.max(T + 11, baseCy - 9)];
+      for (const cy of candidates) {
+        const box = { x: cx, y: cy, w };
+        if (!placed.some(other => overlaps(box, other))) {
+          placed.push(box);
+          out.push(`<text class="val-lbl ${p.fc ? 'fc' : ''}" x="${cx.toFixed(1)}" y="${cy.toFixed(1)}" text-anchor="middle">${text}</text>`);
+          break;
+        }
+      }
+    });
+    return out.join('');
+  }
+
+  function renderDetailTable(cat) {
+    const rows = (cat === TOTAL ? lastRows : lastRows.filter(r => r.category === cat)).filter(r => !r.fill);
+    const shown = rows.slice(0, 2000);
+    const subTxt = lang === 'en'
+      ? `showing ${shown.length} of ${rows.length} ${pluralEn(rows.length, 'row', 'rows')}`
+      : `показано ${shown.length} из ${rows.length} ${pluralRu(rows.length, 'строки', 'строк', 'строк')}`;
+    $('#detail-table').innerHTML = `<div class="ts-preview"><div class="ts-preview-title"><span>${tr('Детальная таблица прогноза', 'Detailed forecast table')} (${cat === TOTAL ? tr('все ряды', 'all series') : esc(catLabel(cat))})</span><span class="ts-sub">${subTxt}</span></div><div class="ts-table"><table><thead><tr><th>${tr('Категория / Ряд', 'Category / Series')}</th><th>${tr('Дата', 'Date')}</th><th>${tr('Прогноз (медиана)', 'Forecast (median)')}</th><th>${tr('Коридор', 'Range')} ${curBandLbl}</th></tr></thead><tbody>${shown.map(r => `<tr><td>${esc(catLabel(r.category))}</td><td>${fdate(ts(r.date))}</td><td><b>${fmtNum2(cz(r.median))}</b></td><td class="ts-sub">${fmtNum2(cz(r.p10))} … ${fmtNum2(cz(r.p90))}</td></tr>`).join('')}</tbody></table></div></div>`;
+  }
+
+  function draw(cat) {
+    let rows = cat === TOTAL ? totalRows() : lastRows.filter(r => r.category === cat), hist = history(cat);
+    if (cat === TOTAL) {
+      const byT = new Map(rows.map(r => [ts(r.date), r])), sp0 = hist.length ? hist[hist.length - 1].t : -Infinity;
+      hist = hist.map(p => { const r = byT.get(p.t); return r ? { t: p.t, y: r.median } : { t: p.t, y: p.y }; });
+      rows = rows.filter(r => ts(r.date) > sp0);
+    } else {
+      rows = rows.filter(r => !r.fill);
+    }
+    const f = rows.map(r => ({ t: ts(r.date), m: cz(r.median), lo: cz(r.p10), hi: cz(r.p90) }));
+    renderDetailTable(cat);
+    if (!f.length) { $('#chart').innerHTML = ''; return; }
+
+    const sumForecast = f.reduce((acc, p) => acc + p.m, 0);
+    $('#kpi-sum').textContent = full0(sumForecast);
+    const prevSlice = hist.slice(-f.length), prevSum = prevSlice.reduce((acc, p) => acc + p.y, 0), dEl = $('#kpi-delta');
+    if (prevSlice.length === f.length && prevSum > 0) {
+      const diffPct = ((sumForecast - prevSum) / prevSum) * 100, sign = diffPct >= 0 ? '▲ +' : '▼ ';
+      dEl.style.color = diffPct >= 0 ? 'var(--ok)' : 'var(--warn)';
+      const cmpLbl = f.length === 1
+        ? tr('к прошлому шагу', 'vs previous step')
+        : tr(`к прошлым ${f.length} ${pluralRu(f.length, 'шагу', 'шагам', 'шагам')}`, `vs previous ${f.length} steps`);
+      dEl.textContent = `${sign}${tr(diffPct.toFixed(1).replace('.', ','), diffPct.toFixed(1))}% ${cmpLbl}`;
+    } else dEl.textContent = '';
+
+    const h = fullZoom ? hist : hist.slice(-Math.max(f.length * 4, 24));
+    const W = 740, H = 310, L = 84, Rt = 28, T = 26, B = 28;
+    const t0 = h.length ? h[0].t : f[0].t, t1 = f[f.length - 1].t;
+    const ys = [...h.map(p => p.y), ...f.flatMap(p => [p.lo, p.hi, p.m])];
+    const rawMin = Math.min(...ys), rawMax = Math.max(...ys);
+    let y0 = rawMin, y1 = rawMax;
+    if (y0 === y1) { y0 -= 1; y1 += 1; }
+    const pr = (y1 - y0) * 0.1;
+    y0 = rawMin >= 0 ? Math.max(0, y0 - pr) : y0 - pr;
+    y1 += pr;
+
+    const X = t => L + (t1 === t0 ? 0 : (t - t0) / (t1 - t0)) * (W - L - Rt);
+    const Y = y => T + (1 - (y - y0) / (y1 - y0)) * (H - T - B);
+    const pt = (t, y) => `${X(t).toFixed(1)},${Y(y).toFixed(1)}`;
+    const last = h[h.length - 1], sp = last ? last.t : f[0].t;
+    const fl = (last ? [pt(last.t, last.y)] : []).concat(f.map(p => pt(p.t, p.m)));
+    const band = (last ? [pt(last.t, last.y)] : []).concat(f.map(p => pt(p.t, p.hi)), f.slice().reverse().map(p => pt(p.t, p.lo))).join(' ');
+
+    let g = '';
+    for (let i = 0; i <= 4; i++) {
+      const v = y0 + (y1 - y0) * i / 4;
+      g += `<line class="ax" x1="${L}" x2="${W - Rt}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tx" x="${L - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+    }
+    const xl = [[t0, 'start'], [sp, 'middle'], [t1, 'end']].filter(([t], i, arr) => i === 0 || Math.abs(X(t) - X(arr[i - 1][0])) > 80);
+    g += xl.map(([t, a]) => `<text class="tx" x="${X(t)}" y="${H - 8}" text-anchor="${a}">${fdate(t)}</text>`).join('');
+    g += `<line class="ax" x1="${X(sp)}" x2="${X(sp)}" y1="${T}" y2="${H - B}" stroke-dasharray="3 3"/>`;
+
+    const allPts = [...h.map(p => ({ t: p.t, y: p.y, fc: false })), ...f.map(p => ({ t: p.t, y: p.m, fc: true }))];
+    const labelsSvg = showLabels ? buildSmartLabels(allPts, X, Y, T, H, B, W, Rt) : '';
+
+    const chartBox = $('#chart');
+    chartBox.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${tr('График истории и прогноза', 'History and forecast chart')}">${g}` +
+      `<polygon class="band" points="${band}"/>` +
+      (h.length ? `<polyline class="ln-h" points="${h.map(p => pt(p.t, p.y)).join(' ')}"/>` : '') +
+      `<polyline class="ln-f" points="${fl.join(' ')}"/>` +
+      (showLabels ? h.map(p => `<circle class="dot-h" r="2.5" cx="${X(p.t).toFixed(1)}" cy="${Y(p.y).toFixed(1)}"/>`).join('') : '') +
+      f.map(p => `<circle class="dot-f" r="3.2" cx="${X(p.t).toFixed(1)}" cy="${Y(p.m).toFixed(1)}"/>`).join('') +
+      labelsSvg +
+      `<line id="hover-line" class="ax" y1="${T}" y2="${H - B}" stroke-dasharray="2 2" hidden/>` +
+      `<circle id="hover-dot" r="4.5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" hidden/>` +
+      `</svg><div id="chart-tip" class="chart-tip" hidden></div>`;
+
+    const svg = chartBox.querySelector('svg'), hLine = $('#hover-line'), hDot = $('#hover-dot'), tip = $('#chart-tip');
+    const interactivePts = [...h.map(p => ({ t: p.t, y: p.y, fc: false })), ...f.map(p => ({ t: p.t, y: p.m, lo: p.lo, hi: p.hi, fc: true }))];
+    svg.addEventListener('mousemove', e => {
+      const rect = svg.getBoundingClientRect(), relX = ((e.clientX - rect.left) / rect.width) * W;
+      let best = null, minDist = Infinity;
+      for (const p of interactivePts) { const d = Math.abs(X(p.t) - relX); if (d < minDist) { minDist = d; best = p; } }
+      if (!best || minDist > 40) { hLine.hidden = hDot.hidden = tip.hidden = true; return; }
+      const px = X(best.t), py = Y(best.y);
+      hLine.setAttribute('x1', px); hLine.setAttribute('x2', px);
+      hDot.setAttribute('cx', px); hDot.setAttribute('cy', py);
+      hLine.hidden = hDot.hidden = tip.hidden = false;
+      tip.innerHTML = `<b>${fdate(best.t)}</b> · ${best.fc ? '<span style="color:var(--accent)">' + tr('Прогноз', 'Forecast') + '</span>' : tr('Факт из истории', 'Actual (history)')}<br>` +
+        `${tr('Значение:', 'Value:')} <b>${fmt(best.y)}</b>` +
+        (best.fc ? `<br><span class="ts-sub">${tr('Коридор', 'Range')} ${curBandLbl}: ${fmt(best.lo)} … ${fmt(best.hi)}</span>` : '');
+      const leftPct = (px / W) * 100;
+      tip.style.top = '8px';
+      tip.style.left = leftPct > 65 ? 'auto' : `${Math.max(2, leftPct + 2)}%`;
+      tip.style.right = leftPct > 65 ? `${Math.max(2, 100 - leftPct + 2)}%` : 'auto';
+    });
+    svg.addEventListener('mouseleave', () => { hLine.hidden = hDot.hidden = tip.hidden = true; });
+  }
+
+  const factEnd = () => { const hh = history(TOTAL); return hh.length ? hh[hh.length - 1].t : -Infinity; };
+  function renderTotal(n) {
+    const box = $('#total-table');
+    if (n < 2) { box.innerHTML = ''; return; }
+    const t = totalRows().filter(r => ts(r.date) > factEnd());
+    const filled = [...new Set(lastRows.filter(r => r.fill).map(r => r.category))].map(catLabel);
+    const catW = lang === 'en' ? pluralEn(filled.length, 'category', 'categories') : pluralRu(filled.length, 'категории', 'категорий', 'категорий');
+    const note = filled.length ? `<div class="ts-sub" style="margin-top:6px">${tr(`Примечание: у ${filled.length} ${catW} данные в файле обрываются раньше остальных (`, `Note: for ${filled.length} ${catW} the history ends earlier than for the others (`)}${esc(filled.slice(0, 5).join(', '))}${filled.length > 5 ? '…' : ''}${tr('). Чтобы общая сумма была корректной, модель автоматически достроила им недостающие периоды.', '). Missing periods were automatically forecast to keep the overall total consistent.')}</div>` : '';
+    box.innerHTML = t.length
+      ? `<div class="ts-preview"><div class="ts-preview-title"><span>${tr('Сводная таблица: Сумма по всем категориям', 'Summary table: Total across all categories')}</span><span class="ts-sub">${tr('прогнозы всех рядов сложены по датам', 'all series forecasts summed by date')}</span></div><div class="ts-table"><table><thead><tr><th>${tr('Дата', 'Date')}</th><th>${tr('Суммарный прогноз', 'Total forecast')}</th><th>${tr('Сумма границ', 'Sum of bounds')} ${curBandLbl}</th></tr></thead><tbody>${t.map(r => `<tr><td>${fdate(ts(r.date))}</td><td><b>${full0(r.median)}</b></td><td class="ts-sub">${full0(r.p10)} … ${full0(r.p90)}</td></tr>`).join('')}</tbody></table></div>${note}</div>`
+      : `<div class="ts-sub" style="margin-top:10px">${tr('Не удалось сложить ряды в общую сумму: у рядов не совпадают даты прогноза.', 'Could not compute an overall total because forecast dates do not align across series.')}</div>`;
+  }
+
+  function showChart(res) {
+    lastRows = res.rows;
+    actualMap = null;
+    const bMap = { '50': '25–75%', '80': '10–90%', '90': '5–95%', '98': '1–99%' };
+    curBandLbl = bMap[res.interval || $('#interval-sel').value] || '10–90%';
+    $('#legend-band-lbl').textContent = `${tr('Коридор', 'Range')} ${curBandLbl}`;
+    const cats = [...new Set(lastRows.map(r => r.category))];
+    const sel = $('#chart-cat');
+    sel.innerHTML = '';
+    if (cats.length > 1) sel.add(new Option(tr('Все категории (Сумма)', 'All categories (Total)'), TOTAL));
+    cats.forEach(c => sel.add(new Option(catLabel(c), c)));
+    sel.hidden = cats.length < 2;
+    $('#kpi-series').textContent = cats.length;
+    renderTotal(cats.length);
+    draw(sel.value || cats[0]);
+  }
+  $('#chart-cat').addEventListener('change', e => draw(e.target.value));
+
+  function formatBtScheme(r, rolling) {
+    const fMin = r.folds_min ?? r.folds, fMax = r.folds, wMin = r.horizon_min ?? r.horizon, wMax = r.horizon;
+    if (lang === 'en') {
+      const adj = rolling ? 'rolling ' : '';
+      const fP = fMin === fMax ? `${fMax} ${adj}${pluralEn(fMax, 'fold', 'folds')}` : `up to ${fMax} ${adj}${pluralEn(fMax, 'fold', 'folds')}`;
+      const wP = wMin === wMax ? `of ${wMax} ${pluralEn(wMax, 'step', 'steps')}` : `of ${wMin}–${wMax} steps`;
+      return `${fP} ${wP}`;
+    }
+    const adj1 = rolling ? 'скользящий ' : '', adjN = rolling ? 'скользящих ' : '';
+    const fP = fMin === fMax
+      ? `${fMax} ${pluralRu(fMax, adj1 + 'этап', adjN + 'этапа', adjN + 'этапов')}`
+      : `до ${fMax} ${pluralRu(fMax, adjN + 'этапа', adjN + 'этапов', adjN + 'этапов')}`;
+    const wP = wMin === wMax
+      ? `по ${wMax} ${pluralRu(wMax, 'шагу', 'шага', 'шагов')}`
+      : `по ${wMin}–${wMax} ${pluralRu(wMax, 'шагу', 'шага', 'шагов')}`;
+    return `${fP} ${wP}`;
+  }
+
+  function drawBacktestMiniChart(pts, r) {
+    if (!pts || pts.length < 2) return '';
+    const W = 680, H = 195, L = 74, Rt = 20, T = 20, B = 28;
+    const ys = pts.flatMap(p => [p.actual, p.predicted]), rawMin = Math.min(...ys), rawMax = Math.max(...ys);
+    let y0 = rawMin, y1 = rawMax;
+    if (y0 === y1) { y0 -= 1; y1 += 1; }
+    const pr = (y1 - y0) * 0.14;
+    y0 = rawMin >= 0 ? Math.max(0, y0 - pr) : y0 - pr;
+    y1 += pr;
+    const X = i => L + (i / (pts.length - 1)) * (W - L - Rt), Y = y => T + (1 - (y - y0) / (y1 - y0)) * (H - T - B), yMid = (y0 + y1) / 2;
+    const scheme = formatBtScheme(r, true);
+    const head = lang === 'en'
+      ? `Backtest chart on the last ${pts.length} ${pluralEn(pts.length, 'date', 'dates')} (${scheme}): black = actual, blue dashed = AI forecast`
+      : `График проверки на ${pts.length} ${pluralRu(pts.length, 'последней дате', 'последних датах', 'последних датах')} (${scheme}): Чёрная линия — факт, Синий пунктир — прогноз ИИ`;
+    return `<div style="margin:14px 0"><div class="ts-sub" style="margin-bottom:6px;font-weight:600;color:var(--ink)">${head}</div>` +
+      `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px">` +
+      `<line class="ax" x1="${L}" x2="${W - Rt}" y1="${Y(y0)}" y2="${Y(y0)}"/><text class="tx" x="${L - 8}" y="${Y(y0) + 3}" text-anchor="end">${fmtShort(y0)}</text>` +
+      `<line class="ax" x1="${L}" x2="${W - Rt}" y1="${Y(yMid)}" y2="${Y(yMid)}"/><text class="tx" x="${L - 8}" y="${Y(yMid) + 3}" text-anchor="end">${fmtShort(yMid)}</text>` +
+      `<line class="ax" x1="${L}" x2="${W - Rt}" y1="${Y(y1)}" y2="${Y(y1)}"/><text class="tx" x="${L - 8}" y="${Y(y1) + 4}" text-anchor="end">${fmtShort(y1)}</text>` +
+      `<polyline class="ln-h" points="${pts.map((p, i) => `${X(i).toFixed(1)},${Y(p.actual).toFixed(1)}`).join(' ')}"/>` +
+      `<polyline class="ln-f" points="${pts.map((p, i) => `${X(i).toFixed(1)},${Y(p.predicted).toFixed(1)}`).join(' ')}"/>` +
+      pts.map((p, i) => `<circle class="dot-h" r="2.8" cx="${X(i).toFixed(1)}" cy="${Y(p.actual).toFixed(1)}"/>`).join('') +
+      pts.map((p, i) => `<circle class="dot-f" r="3" cx="${X(i).toFixed(1)}" cy="${Y(p.predicted).toFixed(1)}"/>`).join('') +
+      `<text class="tx" x="${L}" y="${H - 7}">${fdate(ts(pts[0].date))}</text><text class="tx" x="${W - Rt}" y="${H - 7}" text-anchor="end">${fdate(ts(pts[pts.length - 1].date))}</text></svg></div>`;
+  }
+
+  const renderBacktestImpl = r => {
+    const pct = v => v == null || !isFinite(v) ? '—' : (v * 100).toFixed(1) + '%';
+    const acc = v => v == null || !isFinite(v) ? '—' : Math.max(0, 100 - v * 100).toFixed(1) + '%';
+    const cmp = r.baselines.filter(b => b.wape != null && b.model_wape != null);
+    const betterAll = cmp.length && cmp.every(b => b.model_wape < b.wape), trivial = cmp.length && cmp.every(b => b.wape < 1e-9);
+
+    let alertCls = 'ts-alert-ok', title = '', desc = '';
+    if (trivial) {
+      alertCls = 'ts-alert-warn';
+      title = tr('Значения в таблице почти не меняются (ошибка 0%)', 'Values in the series barely change (0% error)');
+      desc = tr('Проверьте, что в поле «Что прогнозируем» выбран правильный столбец, а не константа или номер года.', 'Make sure the correct target metric column is selected rather than a constant or year column.');
+    } else if (betterAll) {
+      const gain = ((cmp[0].wape - cmp[0].model_wape) * 100).toFixed(1);
+      title = tr(`Отличный результат! Модель точнее базового прогноза на ${gain}%`, `Great result! ${r.model} beat the baseline forecast by ${gain}%`);
+      desc = tr(`В среднем по отдельным рядам ошибка модели составила <b>${pct(r.wape)}</b> (точность ~<b>${acc(r.wape)}</b>)${r.total && r.total.wape != null ? `, а на общей сумме всех категорий — всего <b>${pct(r.total.wape)}</b>` : ''}.`, `Average WAPE across individual series is <b>${pct(r.wape)}</b> (~<b>${acc(r.wape)}</b> accuracy)${r.total && r.total.wape != null ? `, and just <b>${pct(r.total.wape)}</b> on the overall total` : ''}.`);
+    } else {
+      alertCls = 'ts-alert-warn';
+      title = tr('Внимание: модель не дала выигрыша по сравнению с простым прогнозом', 'Note: the model did not beat the simple baseline on this dataset');
+      desc = tr(`Ошибка модели составила <b>${pct(r.wape)}</b>. Простой метод «взять прошлое значение» оказался не хуже. Попробуйте выбрать модель крупнее (28M или 123M) или переключить Авто-календарь.`, `Model error (WAPE) was <b>${pct(r.wape)}</b>, which did not improve over a simple baseline. Try a larger model size (28M or 123M) or toggle Auto-calendar.`);
+    }
+
+    let barsHtml = '';
+    if (cmp.length && r.wape != null) {
+      const explain = name => /прошл.*точк|простой/i.test(name)
+        ? tr('Базовый метод 1 (без ИИ): повторяет последнее известное значение на все будущие шаги.', 'Baseline 1 (no AI): repeats the last observed value across all future steps.')
+        : /сезон/i.test(name)
+          ? tr('Базовый метод 2 (без ИИ): берёт значение из аналогичного дня/недели/месяца прошлого сезона.', 'Baseline 2 (no AI): copies values from the same period in the previous season.')
+          : esc(baselineName(name));
+      const maxW = Math.max(r.wape, ...cmp.map(b => b.wape), 0.01) * 1.15;
+      const mW = Math.min(100, (r.wape / maxW) * 100).toFixed(1);
+      barsHtml = `<div class="bt-bars"><div style="font-weight:600;font-size:13.5px">${tr('Сравнение точности: Модель против простых базовых методов', 'Accuracy comparison: Model vs. simple baselines')} <span class="ts-sub" style="font-weight:400">${tr('(меньше ошибка — лучше)', '(lower error is better)')}</span></div>` +
+        `<div class="bt-bar-row"><span><b>1. ${esc(r.model)}</b> — ${tr('ошибка', 'error')} <b>${pct(r.wape)}</b> ${betterAll ? `<span class="pill-ok">${tr('Лучший результат', 'Best')}</span>` : ''}</span><div class="bt-bar-track"><div class="bt-bar-fill" style="width:${mW}%;background:var(--accent)"></div></div></div>` +
+        cmp.map((b, idx) => {
+          const bw = Math.min(100, (b.wape / maxW) * 100).toFixed(1), diff = ((b.wape - r.wape) * 100).toFixed(1);
+          const badge = r.wape < b.wape ? `<span class="ts-sub">${tr(`(+${diff}% ошибки к ИИ)`, `(+${diff}% error vs AI)`)}</span>` : `<span class="pill-warn">${tr('точнее ИИ', 'beat AI')}</span>`;
+          return `<div class="bt-bar-row"><span><b>${idx + 2}. ${esc(baselineName(b.name))}</b> — ${tr('ошибка', 'error')} <b>${pct(b.wape)}</b> ${badge}</span><div class="ts-sub" style="font-size:11.5px;margin-top:-2px">${explain(b.name)}</div><div class="bt-bar-track"><div class="bt-bar-fill" style="width:${bw}%;background:var(--mute)"></div></div></div>`;
+        }).join('') + `</div>`;
+    }
+
+    const seriesRows = r.series.map(s => {
+      const win = s.wape != null && s.naive_wape != null && s.wape <= s.naive_wape;
+      return `<tr data-cat="${esc(s.name)}"><td><b class="ts-link" title="${esc(tr('Нажмите, чтобы открыть этот ряд на графике', 'Click to view this series on the chart'))}">${esc(catLabel(s.name))}</b></td><td>${s.points}</td><td><b>${pct(s.wape)}</b></td><td class="ts-sub">${pct(s.naive_wape)}</td><td>${win ? `<span class="pill-ok">${tr('ИИ точнее', 'AI wins')}</span>` : `<span class="pill-warn">${tr('Простой точнее', 'Baseline wins')}</span>`}</td></tr>`;
+    }).join('');
+    const skipNote = r.skipped > 0 ? `<div class="ts-sub" style="margin:6px 0">${tr(`Пропущено слишком коротких рядов: ${r.skipped}`, `Skipped very short series: ${r.skipped}`)}</div>` : '';
+
+    $('#backtest-state').innerHTML =
+      `<div class="ts-alert ${alertCls}"><b style="font-size:15px;display:block;margin-bottom:3px">${title}</b><div>${desc}</div></div>` +
+      `<div class="bt-grid">` +
+        `<div class="bt-card"><b>${pct(r.wape)}</b><span class="ts-sub">${tr('Средняя ошибка по рядам', 'Mean error across series')} <span class="ts-help" tabindex="0" data-tip="${esc(tr('WAPE: отношение суммы абсолютных ошибок к сумме факта. До 10% — отлично, 10–25% — хорошо.', 'WAPE: sum of absolute errors divided by sum of actuals. Under 10% is great, 10–25% is good.'))}">?</span></span></div>` +
+        (r.total && r.series_total > 1 ? `<div class="bt-card"><b>${pct(r.total.wape)}</b><span class="ts-sub">${tr('Ошибка на общей сумме', 'Error on overall total')} <span class="ts-help" tabindex="0" data-tip="${esc(tr('При сложении всех категорий ошибки в плюс и минус частично компенсируют друг друга, повышая точность общей суммы.', 'When summing across categories, positive and negative errors partially cancel out, often making the overall total more accurate.'))}">?</span></span></div>` : '') +
+        `<div class="bt-card"><b>${r.points}</b><span class="ts-sub">${tr('Проверено точек', 'Points checked')} (${formatBtScheme(r, false)})</span></div>` +
+      `</div>` +
+      barsHtml +
+      (r.total && r.total.points ? drawBacktestMiniChart(r.total.points, r) : '') +
+      (r.total && r.series_total > 1 ? `<details style="margin-top:10px" open><summary style="cursor:pointer;font-weight:600;font-size:13.5px">${tr(`Таблица проверки общей суммы по датам (ошибка: ${pct(r.total.wape)})`, `Total forecast vs. actuals by date (error on total: ${pct(r.total.wape)})`)}</summary><div class="ts-table" style="margin-top:8px"><table><thead><tr><th>${tr('Дата', 'Date')}</th><th>${tr('Реальный факт', 'Actual')}</th><th>${tr('Прогноз ИИ', 'AI forecast')}</th><th>${tr('Отклонение (%)', 'Error (%)')}</th><th>${tr('Учтено рядов', 'Series included')}</th></tr></thead><tbody>${r.total.points.map(x => `<tr><td>${fdate(ts(x.date))}</td><td><b>${full0(x.actual)}</b></td><td>${full0(x.predicted)}</td><td>${pct(Math.abs(x.predicted - x.actual) / (Math.abs(x.actual) || 1))}</td><td class="ts-sub">${x.series} ${tr('из', 'of')} ${r.series_total}</td></tr>`).join('')}</tbody></table></div></details>` : '') +
+      `<details style="margin-top:10px" ${r.series_total <= 5 ? 'open' : ''}><summary style="cursor:pointer;font-weight:600;font-size:13.5px">${tr(`Детализация точности по каждому ряду (${r.series.length} из ${r.series_total})`, `Per-series accuracy breakdown (${r.series.length} of ${r.series_total})`)}</summary>` +
+      skipNote +
+      `<div style="margin:8px 0;display:flex;gap:10px;align-items:center"><input type="search" id="bt-search" placeholder="${esc(tr('Поиск категории по названию…', 'Filter series by name…'))}" style="max-width:280px;padding:6px 10px"><span class="ts-sub">${tr('Совет: нажмите на название категории, чтобы открыть её на графике', 'Tip: click a series name to view it on the chart')}</span></div>` +
+      `<div class="ts-table" style="margin-top:6px"><table id="bt-series-table"><thead><tr><th>${tr('Категория / Ряд', 'Category / Series')}</th><th>${tr('Точек', 'Points')}</th><th>${tr('Ошибка ИИ', 'AI error')}</th><th>${tr('Ошибка базового', 'Baseline error')}</th><th>${tr('Вердикт', 'Verdict')}</th></tr></thead><tbody>${seriesRows}</tbody></table></div></details>`;
+
+    const searchInp = $('#bt-search');
+    if (searchInp) searchInp.addEventListener('input', () => {
+      const q = searchInp.value.trim().toLowerCase();
+      $('#bt-series-table').querySelectorAll('tbody tr').forEach(row => {
+        const nm = row.dataset.cat.toLowerCase(), lbl = catLabel(row.dataset.cat).toLowerCase();
+        row.hidden = q && !nm.includes(q) && !lbl.includes(q);
+      });
+    });
+    $('#bt-series-table').querySelectorAll('.ts-link').forEach(el => el.addEventListener('click', () => {
+      const cat = el.closest('tr').dataset.cat, sel = $('#chart-cat');
+      const opt = [...sel.options].find(o => matchCat(o.value, cat));
+      if (lastRows.length && opt) { sel.value = opt.value; draw(opt.value); $('#main-chart-card').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      else $('#run-forecast').click();
+    }));
+  };
+
+  window.renderBacktest = r => { lastBt = r; renderBacktestImpl(r); };
+
+  const nativeFetch = window.fetch.bind(window);
+  const getStatus = async () => (await nativeFetch('/api/status')).json();
+
+  const hint = async () => {
+    try {
+      const s = await getStatus(), size = $('#model').value;
+      const dev = $('#device').value === 'GPU (CUDA)' && s.cuda ? 'cuda' : 'cpu';
+      $('#model-hint').textContent = s.loaded.includes(`${size}/${dev}`) ? tr('✓ Модель уже в памяти — расчёт начнётся мгновенно.', '✓ Model is loaded in memory — ready to run instantly.')
+        : s.on_disk[size] ? tr('✓ Модель сохранена на диске — загрузится в память за пару секунд.', '✓ Model is cached on disk — will load into memory in a few seconds.')
+        : tr('↓ При первом запуске веса модели скачаются с Hugging Face.', '↓ Model weights will be downloaded from Hugging Face on first run.');
+    } catch { $('#model-hint').textContent = ''; }
+  };
+  $('#model').addEventListener('change', hint);
+  $('#device').addEventListener('change', hint);
+  hint();
+
+  const live = (() => {
+    const box = $('#live'), txt = $('#live-text'), spin = box.querySelector('.spin'), bar = $('#live-bar');
+    const name = () => ({ forecast: tr('Строим прогноз', 'Building forecast'), backtest: tr('Проверка точности', 'Running backtest') }[kind]);
+    const done = () => ({ forecast: tr('Прогноз построен', 'Forecast completed'), backtest: tr('Проверка на истории завершена', 'Backtest completed') }[kind]);
+    let timer = null, t0 = 0, kind = '', finalFn = null;
+    const secs = () => Math.round((Date.now() - t0) / 1000);
+    const tick = async () => {
+      let msg = `${name()}: ${tr('выполняем расчёт', 'computing')}`; bar.hidden = true;
+      try {
+        const s = await getStatus();
+        if (s.loading) {
+          const L = s.loading, mb = v => (v / 1048576).toFixed(1).replace('.', tr(',', '.'));
+          if (s.on_disk[L.size]) msg = tr(`Загружаем ${L.model} с диска в память`, `Loading ${L.model} from disk into memory`);
+          else if (L.total && L.bytes < L.total * 0.99) {
+            const pct = Math.min(99, Math.round(L.bytes / L.total * 100));
+            bar.hidden = false; bar.value = pct;
+            msg = tr(`Скачиваем ${L.model}: ${mb(L.bytes)} из ≈${mb(L.total)} МБ (${pct}%)`, `Downloading ${L.model}: ${mb(L.bytes)} of ≈${mb(L.total)} MB (${pct}%)`);
+          } else if (L.total) msg = tr(`${L.model} скачана, распаковываем в память`, `${L.model} downloaded, loading into memory`);
+          else msg = tr(`Скачиваем ${L.model}: ${mb(L.bytes)} МБ`, `Downloading ${L.model}: ${mb(L.bytes)} MB`);
+        } else if (s.task) {
+          const cur = Math.min(s.task.done + 1, s.task.total);
+          msg = `${name()}: ` + tr(`обрабатываем ряд ${cur} из ${s.task.total}`, `processing series ${cur} of ${s.task.total}`);
+        }
+      } catch {}
+      txt.textContent = `${msg}… (${secs()} ${tr('сек', 's')})`;
+    };
+    return {
+      start(k) { kind = k; finalFn = null; t0 = Date.now(); box.hidden = false; spin.hidden = false; txt.textContent = tr('Подготовка данных…', 'Preparing data…'); clearInterval(timer); timer = setInterval(tick, 600); },
+      stop(ok) {
+        clearInterval(timer); timer = null; spin.hidden = true; bar.hidden = true;
+        const sc = secs();
+        finalFn = () => ok ? `✓ ${done()} ${tr('за', 'in')} ${sc} ${tr('сек', 's')}` : tr(`✕ Ошибка при расчёте (${sc} сек). Подробности ниже.`, `✕ Calculation failed (${sc} s). See details below.`);
+        txt.textContent = finalFn(); hint();
+      },
+      refresh() { if (finalFn && !timer) txt.textContent = finalFn(); },
+      running() { return !!timer; },
+    };
+  })();
+
+  window.fetch = async (...a) => {
+    const job = /\/api\/(forecast|backtest)$/.exec(String(a[0]));
+    if (job) live.start(job[1]);
+    try {
+      const r = await nativeFetch(...a);
+      if (job) live.stop(r.ok);
+      if (job && job[1] === 'forecast' && r.ok) r.clone().json().then(showChart).catch(() => {});
+      return r;
+    } catch (e) { if (job) live.stop(false); throw e; }
+  };
+
+  const getExportRows = () => {
+    const hasMulti = new Set(lastRows.map(r => r.category)).size > 1;
+    return lastRows.map(r => ({ ...r, median: cz(r.median), p10: cz(r.p10), p90: cz(r.p90) }))
+      .concat(hasMulti ? totalRows().filter(r => ts(r.date) > factEnd()) : []);
+  };
+
+  const csvCell = (val, sep) => {
+    const s = String(val ?? '');
+    return (s.includes(sep) || s.includes('"') || s.includes('\n')) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+
+  const exportHeader = sep => [
+    tr('Категория', 'Category'),
+    tr('Дата', 'Date'),
+    tr('Прогноз_медиана', 'Forecast_median'),
+    `${tr('Нижняя', 'Lower')}_${curBandLbl}`,
+    `${tr('Верхняя', 'Upper')}_${curBandLbl}`,
+    tr('Дооценка_пропуска', 'Gap_fill'),
+  ].map(h => csvCell(h, sep)).join(sep);
+
+  $('#copy-tsv').addEventListener('click', async () => {
+    const c = v => { const s = Number(v).toFixed(2); return lang === 'en' ? s : s.replace('.', ','); };
+    const lines = [exportHeader('\t')].concat(
+      getExportRows().map(r => [
+        catLabel(r.category),
+        lang === 'en' ? r.date.replace('T00:00:00', '') : fdate(ts(r.date)),
+        c(r.median), c(r.p10), c(r.p90),
+        r.fill ? tr('да', 'yes') : '',
+      ].join('\t'))
+    );
+    await navigator.clipboard.writeText(lines.join('\r\n'));
+    const btn = $('#copy-tsv');
+    btn.dataset.copied = '1';
+    btn.textContent = tr('✓ Скопировано!', '✓ Copied!');
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => {
+      delete btn.dataset.copied;
+      btn.textContent = tr('Скопировать для Excel', 'Copy for Excel');
+    }, 2000);
+  });
+
+  $('#download-csv').addEventListener('click', () => {
+    const sep = lang === 'en' ? ',' : ';';
+    const c = v => lang === 'en' ? String(v) : String(v).replace('.', ',');
+    const body = getExportRows().map(r => [
+      catLabel(r.category),
+      r.date.replace('T00:00:00', ''),
+      c(r.median), c(r.p10), c(r.p90),
+      r.fill ? tr('да', 'yes') : '',
+    ].map(cell => csvCell(cell, sep)).join(sep));
+    const blob = new Blob(['\uFEFF' + [exportHeader(sep), ...body].join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'timestral_forecast.csv' });
+    a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
+  function translateStatic() {
+    const idx = lang === 'en' ? 1 : 0;
+    R.querySelectorAll('[data-t]').forEach(el => { const v = T[el.dataset.t]; if (v) el.textContent = v[idx]; });
+    R.querySelectorAll('[data-tip-k]').forEach(el => { const v = T[el.dataset.tipK]; if (v) el.setAttribute('data-tip', v[idx]); });
+    R.querySelectorAll('[data-ttl]').forEach(el => { const v = T[el.dataset.ttl]; if (v) el.setAttribute('title', v[idx]); });
+    $('#chart-cat').setAttribute('aria-label', tr('Выбор ряда для графика', 'Select series for chart'));
+    const copyBtn = $('#copy-tsv');
+    copyBtn.textContent = copyBtn.dataset.copied ? tr('✓ Скопировано!', '✓ Copied!') : tr('Скопировать для Excel', 'Copy for Excel');
+  }
+
+  const BTN = {
+    '#run-forecast': ['Построить прогноз', 'Build forecast'],
+    '#run-backtest': ['Проверить точность на истории', 'Check accuracy on history'],
+  };
+
+  const renderEmptySteps = () => {
+    $('#empty-steps').innerHTML = lang === 'en'
+      ? '<div><b>1.</b> Upload your CSV/Excel file (or click <b>“Load demo example”</b>).</div><div><b>2.</b> Verify the automatically detected <b>Date</b> and <b>Target</b> columns.</div><div><b>3.</b> Click <b>“Build forecast”</b>.</div>'
+      : '<div><b>1.</b> Загрузите свой Excel/CSV файл (или нажмите кнопку <b>«Загрузить демо-пример»</b>).</div><div><b>2.</b> Проверьте, что программа правильно угадала столбцы <b>Даты</b> и <b>Цели</b>.</div><div><b>3.</b> Нажмите синюю кнопку <b>«Построить прогноз»</b>.</div>';
+  };
+
+  const renderBtPlaceholder = () => {
+    $('#backtest-state').innerHTML = `<div class="ts-sub">${lang === 'en'
+      ? 'Click <b>“Check accuracy on history”</b> on the left. The app will backtest the model on historical data and show in plain English its percentage error and whether it beats a simple rule-of-thumb baseline.'
+      : 'Нажмите кнопку <b>«Проверить точность на истории»</b> слева. Программа проведёт ретроспективную проверку на уже известных данных и покажет простым языком процент ошибки и выигрыш нейросети над простыми базовыми формулами.'}</div>`;
+  };
+
+  function refreshResults() {
+    if (!lastRows.length) return;
+    const sel = $('#chart-cat'), cur = sel.value;
+    [...sel.options].forEach(o => { o.textContent = o.value === TOTAL ? tr('Все категории (Сумма)', 'All categories (Total)') : catLabel(o.value); });
+    const cats = [...new Set(lastRows.map(r => r.category))];
+    renderTotal(cats.length);
+    draw(cur || cats[0]);
+  }
+
+  const SRV = [
+    [/^Построить прогноз$/, () => 'Build forecast'],
+    [/^Модель считает…$/, () => 'Computing forecast…'],
+    [/^Проверяем точность…$/, () => 'Running backtest…'],
+    [/^Проверить точность на истории$/, () => 'Check accuracy on history'],
+    [/^(\d+) (?:шаг|шага|шагов)$/, m => `${m[1]} ${pluralEn(Number(m[1]), 'step', 'steps')}`],
+    [/^(.+): прогноз на (\d+) (?:шаг|шага|шагов)$/, m => `${m[1]}: forecast for ${m[2]} ${pluralEn(Number(m[2]), 'step', 'steps')}`],
+    [/^Не удалось выполнить расчёт\.$/, () => 'Calculation failed.'],
+    [/^Файл не распознан: ожидаются заголовки и строки\.$/, () => 'File not recognized: headers and rows expected.'],
+    [/^Выберите столбцы даты и целевого показателя\.$/, () => 'Select both the date column and the target column.'],
+    [/^В столбце даты есть нераспознанные или пустые значения\. Проверьте столбец даты\.$/, () => 'The date column contains unrecognized or empty values. Check your date column selection.'],
+    [/^В ряду «(.+)» найдено (\d+) повторяющихся дат\..*$/, m => `Series “${catLabel(m[1])}” has ${m[2]} duplicate ${pluralEn(Number(m[2]), 'date', 'dates')}. Choose a category column in “Split into separate series by column”.`],
+    [/^Не найден фактор «(.+)»\.$/, m => `Factor “${m[1]}” was not found.`],
+    [/^Для фактора «(.+)» недостаточно строк \((.+)\)\.$/, m => `Not enough rows for factor “${m[1]}” (${m[2] === 'истории' ? 'history' : m[2] === 'будущего горизонта' ? 'future horizon' : m[2]}).`],
+    [/^В ряду «(.+)» нет ни одного числового значения в целевом столбце\.$/, m => `Series “${catLabel(m[1])}” has no numeric values in the target column.`],
+    [/^В ряду «(.+)» слишком короткая история \(нужно хотя бы (\d+) точ\S*\)\.$/, m => `Series “${catLabel(m[1])}” is too short (at least ${m[2]} points are required).`],
+    [/^В ряду «(.+)» нет истории для прогноза\.$/, m => `Series “${catLabel(m[1])}” has no historical values to forecast from.`],
+    [/^В ряду «(.+)» не хватает будущих строк \((\d+) шт\.\) для заранее известных факторов\.$/, m => `Series “${catLabel(m[1])}” is missing future rows (${m[2]}) required for future-known factors.`],
+    [/^Неизвестный размер модели\.$/, () => 'Unknown model size.'],
+    [/^Горизонт прогноза должен быть от 1 до 1024 шагов\.$/, () => 'Forecast horizon must be between 1 and 1024 steps.'],
+    [/^Слишком короткая история: для проверки нужно минимум 9 известных значений в ряду\.$/, () => 'History is too short: at least 9 observed values per series are required for backtesting.'],
+    [/^Ошибка Timestral: (.*)$/, m => 'Timestral error: ' + (trSrv(m[1]) || m[1])],
+  ];
+  const trSrv = s => { for (const [re, fn] of SRV) { const m = re.exec(s); if (m) return fn(m); } return null; };
+  const watched = ['#run-forecast', '#run-backtest', '#results-title', '#run-status', '#backtest-state', '#kpi-horizon'];
+
+  const trAlert = el => {
+    const box = el.firstElementChild;
+    if (!box || !box.classList.contains('ts-alert-err') || box.dataset.enDone) return;
+    const b = box.querySelector('b'), rest = b && b.nextSibling;
+    if (!b || !rest || rest.nodeType !== 3) return;
+    const outHead = b.textContent.trim() === 'Не удалось провести проверку:' ? 'Backtest failed:' : null;
+    const outMsg = trSrv(rest.nodeValue.trim());
+    if (!outHead && !outMsg) return;
+    box.dataset.ruHead = b.textContent; box.dataset.ruMsg = rest.nodeValue; box.dataset.enDone = '1';
+    if (outHead) b.textContent = outHead;
+    if (outMsg) rest.nodeValue = ' ' + outMsg;
+  };
+
+  const restoreAlert = el => {
+    const box = el && el.firstElementChild;
+    if (!box || !box.dataset || !box.dataset.enDone) return;
+    const b = box.querySelector('b'), rest = b && b.nextSibling;
+    if (b && rest) { b.textContent = box.dataset.ruHead; rest.nodeValue = box.dataset.ruMsg; }
+    delete box.dataset.enDone; delete box.dataset.ruHead; delete box.dataset.ruMsg;
+  };
+
+  const translateWatched = () => watched.forEach(q => {
+    const el = $(q);
+    if (el && q === '#backtest-state' && el.childElementCount) { trAlert(el); return; }
+    if (!el || el.childElementCount) return;
+    const s = el.textContent.trim();
+    if (el.dataset.enOut && s === el.dataset.enOut) return;
+    const out = s && trSrv(s);
+    if (out && out !== el.textContent) { el.dataset.ru = el.textContent; el.dataset.enOut = out; el.textContent = out; }
+  });
+
+  const restoreWatched = () => watched.forEach(q => {
+    const el = $(q);
+    if (!el) return;
+    if (q === '#backtest-state') restoreAlert(el);
+    if (el.dataset.enOut && el.textContent === el.dataset.enOut) el.textContent = el.dataset.ru;
+    delete el.dataset.enOut; delete el.dataset.ru;
+  });
+
+  const observer = new MutationObserver(() => { if (lang === 'en') translateWatched(); });
+  watched.forEach(q => observer.observe($(q), { childList: true, characterData: true, subtree: true }));
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    R.querySelectorAll('.ts-lang button').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+    translateStatic();
+    renderEmptySteps();
+    if (demoMode && cols.length) translateDemoInPlace();
+    else if (cols.length) refreshCovs();
+    if (cols.length) renderRawPreview();
+    renderDropText();
+    if (!live.running()) Object.entries(BTN).forEach(([q, [ru, en]]) => { $(q).textContent = lang === 'en' ? en : ru; });
+    if (lang === 'en') translateWatched(); else restoreWatched();
+    $('#legend-band-lbl').textContent = `${tr('Коридор', 'Range')} ${curBandLbl}`;
+    if (statusFn) setStatus(statusColor, statusFn);
+    hint();
+    live.refresh();
+    refreshResults();
+    const btBox = $('#backtest-state');
+    const hasErrAlert = btBox.firstElementChild && btBox.firstElementChild.classList.contains('ts-alert-err');
+    if (lastBt) renderBacktestImpl(lastBt);
+    else if (!hasErrAlert) renderBtPlaceholder();
+  }
+
+  R.querySelectorAll('.ts-lang button').forEach(b => b.addEventListener('click', () => {
+    if (lang === b.dataset.lang) return;
+    lang = b.dataset.lang;
+    try { localStorage.setItem('timestral-lang', lang); } catch (e) {}
+    applyLang();
+  }));
+  applyLang();
+})();
+</script>

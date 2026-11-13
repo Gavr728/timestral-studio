@@ -1,0 +1,17 @@
+# Timestral Studio: Python dependencies
+# Python >= 3.10 is required by Timestral itself.
+
+numpy
+pandas
+
+# PyTorch >= 2.4 is required by Timestral.
+# Install it first in the way that suits your hardware (CPU or NVIDIA CUDA),
+# see https://pytorch.org/get-started/locally/
+torch>=2.4
+
+# Used directly by the server (cache location, download size, progress bars).
+huggingface_hub
+
+# Timestral: Mistral's documented install is from GitHub (Git must be installed).
+# For reproducible installs, pin a commit: git+https://github.com/mistralai/timestral.git@<commit-sha>
+git+https://github.com/mistralai/timestral.git

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local model cache (old default location; the server now uses the Hugging Face cache)
+timestral_model_cache/
+
+# Secrets and local config
+.env
+.env.*
+
+# Your data and exported forecasts
+data/
+timestral_forecast*.csv
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
